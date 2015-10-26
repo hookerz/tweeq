@@ -1,0 +1,90 @@
+.tweeq {
+
+  top: 0;
+  left: 200px;
+  position: absolute;
+
+  width: 250px;
+  height: auto;
+  margin: 0;
+  padding: 0;
+
+  background: black;
+
+  color: white;
+  font-size: 0.6875em; /* 11 / 16 */
+  font-family: sans-serif;
+  text-transform: lowercase;
+
+}
+
+.tweeq-container {
+
+  width: 100%;
+  height: 100%;
+
+}
+
+.tweeq-control {
+
+  display: flex;
+  padding: 0.5rem;
+  background: rgb(28,32,32);
+
+  border-left: 10px solid rgb(28,32,32);
+  border-bottom: 1px solid rgb(52,56,56);
+
+  cursor: pointer;
+
+}
+
+.tweeq-control:last-child {
+
+  border-bottom: none;
+
+}
+
+.tweeq-control > label {
+
+  flex: 1 0 auto;
+  align-self: center;
+  cursor: pointer;
+
+}
+
+.tweeq-control > input {
+
+  margin: 0;
+
+}
+
+.tweeq-control > input[type='text'] {
+
+  flex: 1 0 auto;
+
+}
+
+.tweeq-control.tweeq-number > input {
+
+  color: cyan;
+  text-align: right;
+  background: none;
+  outline: none;
+  border: none;
+
+}
+
+.tweeq-button:hover {
+
+  color: rgba(0,0,0,0.8);
+
+}
+
+.tweeq-button.red:hover     { background-color: rgb(238,58,35); }
+.tweeq-button.orange:hover  { background-color: rgb(255,143,36); }
+.tweeq-button.yellow:hover  { background-color: rgb(254,204,9); }
+.tweeq-button.green:hover   { background-color: rgb(181,220,16); }
+.tweeq-button.cyan:hover    { background-color: rgb(0,223,252); }
+.tweeq-button.blue:hover    { background-color: rgb(0,166,242); }
+.tweeq-button.purple:hover  { background-color: rgb(189,77,191); }
+.tweeq-button.magenta:hover { background-color: rgb(247,5,102); }
