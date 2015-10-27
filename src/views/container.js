@@ -16,7 +16,7 @@ function initialState(props) {
 function render(component, setState) {
 
   let { open } = component.state;
-  let { container } = component.props;
+  let { depth = 0, container } = component.props;
   let { label, children } = container;
 
   function toggleOpen(event) {
@@ -31,7 +31,7 @@ function render(component, setState) {
 
       switch (child.type) {
 
-        case 'container': return <TweeqContainer container={child} />;
+        case 'container': return <TweeqContainer depth={depth + 1} container={child} />;
         case 'toggle':    return <TweeqToggle control={child} />;
         case 'button':    return <TweeqButton control={child} />;
         case 'number':    return <TweeqNumber control={child} />;
@@ -42,8 +42,13 @@ function render(component, setState) {
 
     });
 
-    return <div class='tweeq-container'>
-      <div class='twee-control tweeq-close' onClick={toggleOpen}>{label}</div>
+    let classlist = `tweeq-container depth-${depth}`;
+
+    return <div class={classlist}>
+      <div class='tweeq-control tweeq-close' onClick={toggleOpen}>
+        {label || 'collapse'}
+        <i class='icon-down-dir'></i>
+      </div>
       {controls}
     </div>
 
@@ -51,7 +56,10 @@ function render(component, setState) {
   } else {
 
 
-    return <div class='tweeq-control tweeq-open' onClick={toggleOpen}>{label}</div>
+    return <div class='tweeq-control tweeq-open' onClick={toggleOpen}>
+      <label>{label || 'expand'}</label>
+      <i class='icon-up-dir'></i>
+    </div>
 
   }
 }
