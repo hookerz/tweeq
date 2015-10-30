@@ -6,15 +6,13 @@ function render({ props, state }, update) {
 
   let { control } = props;
 
-  let value = ;
+  // Inherit the state from the control.
+  let value = state.value || control.value;
   let valid = !!state.valid;
-
-  let classlist = [ 'tweeq-control', 'tweeq-number' ];
-  if (!valid) classlist.push('invalid');
 
   function changed(event) {
     try {
-      control.value = parseInt(event.target.value);
+      control.value = event.target.value;
       update({ valid: true });
     } catch(err) {
       update({ valid: false });
@@ -23,9 +21,9 @@ function render({ props, state }, update) {
 
   return <div class={ classlist.join(' ') }>
     <label>{ control.label }</label>
-    <input type='text' onChange={ changed } value={ control.value }/>
+    <input type='text' onchange={ changed } value={ control.value } />
   </div>
 
 }
 
-export default { render };
+export default { initialState, afterUpdate, render };

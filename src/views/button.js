@@ -1,23 +1,21 @@
 /** @jsx element **/
 
 import element from 'virtual-element';
-import rcolor from '../util/random-color';
 
-function render(component) {
+function render({ props, state }) {
 
-  let { control } = component.props;
+  let { control } = props;
 
-  // Emit a data event when the button is clicked.
+  let classlist = [ 'tweeq-control', 'tweeq-button' ];
+
   function clicked(event) {
 
     control.emit('change');
 
   }
 
-  let classes = 'tweeq-control tweeq-button ' + rcolor();
-
-  return <div class={classes} onClick={clicked}>
-    <label>{control.label}</label>
+  return <div class={ classlist.join(' ') } onclick={ clicked }>
+    <label>{ control.label }</label>
   </div>
 
 }
