@@ -1,11 +1,9 @@
 /** @jsx element **/
 
 import element from 'virtual-element';
-import TweeqContainer from './container';
-import TweeqButton from './button';
-import TweeqNumber from './number';
-import TweeqToggle from './toggle';
-import TweeqText from './text';
+
+const view = { render };
+export default view;
 
 function render({ props, state }, update) {
 
@@ -30,7 +28,7 @@ function render({ props, state }, update) {
 
     });
 
-    let classlist = [ 'tweeq-control',  `depth-${ depth }` ];
+    let classlist = [ 'tweeq-control', `depth-${ depth }` ];
 
     return <div class={ classlist.join(' ') }>
 
@@ -54,5 +52,3 @@ function render({ props, state }, update) {
 
   }
 }
-
-export default { render };

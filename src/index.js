@@ -1,6 +1,11 @@
-import 'babel-core/polyfill';
 import './style/default.css';
 import './style/icons.css';
+import './views/button';
+import './views/boolean';
+import './views/container';
+import './views/number';
+import './views/string';
+
 import container from './container';
 import control from './control';
 

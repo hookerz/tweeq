@@ -37,10 +37,10 @@ export default function(label, value) {
   let obj = Object.create(EventEmitter.prototype);
   EventEmitter.call(obj);
 
-  let reg = registrations.find(reg => reg.fit(value));
+  let reg = registrations.find(r => r.fit(value));
 
   // TODO better error messages
-  if (!reg) throw new Error('Unrecognized value.');
+  if (!reg) throw new Error(`Unrecognized value ${value}`);
 
   let getter = () => value;
   let setter = (next) => {

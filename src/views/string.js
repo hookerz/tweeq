@@ -3,10 +3,10 @@
 import element from 'virtual-element';
 import { register } from '../control';
 
-export default const TweeqString = { render };
+const view = { render };
+export default view;
 
-// Register the control view.
-register(TweeqString, value => typeof value === 'string');
+register(view, value => typeof value === 'string');
 
 function render({ props, state }, update) {
 

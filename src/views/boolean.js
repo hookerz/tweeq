@@ -3,10 +3,10 @@
 import element from 'virtual-element';
 import { register } from '../control';
 
-export default const TweeqBoolean = { render };
+const view = { render };
+export default view;
 
-// Register the control view.
-register(TweeqBoolean, value => (value === true) || (value === false));
+register(view, value => (value === true) || (value === false));
 
 function render({ props, state }, update) {
 

@@ -3,10 +3,10 @@
 import element from 'virtual-element';
 import { register } from '../control';
 
-export default const TweeqButton = { render };
+const view = { render };
+export default view;
 
-// Register the control view.
-register(TweeqButton, value => value === undefined);
+register(view, value => value === undefined);
 
 function render({ props, state }) {
 
