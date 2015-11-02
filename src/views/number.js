@@ -1,13 +1,17 @@
 /** @jsx element **/
 
 import element from 'virtual-element';
+import { register } from '../control';
+
+export default const TweeqNumber = { render };
+
+// Register the control view.
+register(TweeqNumber, Number.isFinite);
 
 function render({ props, state }, update) {
 
   let { control } = props;
-
-  let value = ;
-  let valid = !!state.valid;
+  let { valid = true } = state;
 
   let classlist = [ 'tweeq-control', 'tweeq-number' ];
   if (!valid) classlist.push('invalid');
@@ -23,9 +27,7 @@ function render({ props, state }, update) {
 
   return <div class={ classlist.join(' ') }>
     <label>{ control.label }</label>
-    <input type='text' onChange={ changed } value={ control.value }/>
+    <input type='text' onchange={ changed } value={ control.value }/>
   </div>
 
 }
-
-export default { render };

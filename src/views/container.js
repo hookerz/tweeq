@@ -7,61 +7,52 @@ import TweeqNumber from './number';
 import TweeqToggle from './toggle';
 import TweeqText from './text';
 
-function initialState(props) {
+function render({ props, state }, update) {
 
-  return { open: !!props.open };
-
-}
-
-function render(component, setState) {
-
-  let { open } = component.state;
   let { depth = 0, container } = component.props;
-  let { label, children } = container;
+  let open = state.open || props.open;
 
-  function toggleOpen(event) {
+  function clicked(event) {
 
-    setState({ open: !open });
+    update({ open: !open });
 
   }
 
   if (open) {
 
-    let controls = children.map(child => {
+    let controls = container.children.map(child => {
 
-      switch (child.type) {
+      let props = (child.view.render === render)
+        ? { depth: depth + 1, container: child }
+        : { control: child };
 
-        case 'container': return <TweeqContainer depth={depth + 1} container={child} />;
-        case 'toggle':    return <TweeqToggle control={child} />;
-        case 'button':    return <TweeqButton control={child} />;
-        case 'number':    return <TweeqNumber control={child} />;
-        case 'text':      return <TweeqText   control={child} />;
-        default:          throw new Error('unrecognized child');
-
-      }
+      return element(child.view, props);
 
     });
 
-    let classlist = `tweeq-container depth-${depth}`;
+    let classlist = [ 'tweeq-control',  `depth-${ depth }` ];
 
-    return <div class={classlist}>
-      <div class='tweeq-control tweeq-close' onClick={toggleOpen}>
-        {label || 'collapse'}
+    return <div class={ classlist.join(' ') }>
+
+      <div class='tweeq-control tweeq-close' clicked={ clicked }>
+        <label>{ container.label || 'collapse' }</label>
         <i class='icon-down-dir'></i>
       </div>
+
       {controls}
+
     </div>
 
 
   } else {
 
+    let classlist = [ 'tweeq-control', 'tweeq-open' ];
 
-    return <div class='tweeq-control tweeq-open' onClick={toggleOpen}>
-      <label>{label || 'expand'}</label>
-      <i class='icon-up-dir'></i>
+    return <div class={ classlist.join(' ') } onclick={ clicked }>
+      <label>{ container.label || 'expand' }</label>
     </div>
 
   }
 }
 
-export default { initialState, render };
+export default { render };

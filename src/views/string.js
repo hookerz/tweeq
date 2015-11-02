@@ -1,14 +1,20 @@
 /** @jsx element **/
 
 import element from 'virtual-element';
+import { register } from '../control';
+
+export default const TweeqString = { render };
+
+// Register the control view.
+register(TweeqString, value => typeof value === 'string');
 
 function render({ props, state }, update) {
 
   let { control } = props;
+  let { valid = true } = state;
 
-  // Inherit the state from the control.
-  let value = state.value || control.value;
-  let valid = !!state.valid;
+  let classlist = [ 'tweeq-control', 'tweeq-string' ];
+  if (!valid) classlist.push('invalid');
 
   function changed(event) {
     try {
@@ -21,9 +27,7 @@ function render({ props, state }, update) {
 
   return <div class={ classlist.join(' ') }>
     <label>{ control.label }</label>
-    <input type='text' onchange={ changed } value={ control.value } />
+    <input type='text' onchange={ changed } value={ control.value }/>
   </div>
 
 }
-
-export default { initialState, afterUpdate, render };
