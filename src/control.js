@@ -55,7 +55,7 @@ export default function(label, value) {
 
   Object.defineProperties(obj, {
 
-    view: { value: reg.view },
+    view:  { value: reg.view },
     label: { value: label, enumerable: true },
     value: { get: getter, set: setter, enumerable: true }
 

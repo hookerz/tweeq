@@ -4,7 +4,6 @@ import element from 'virtual-element';
 import { register } from '../control';
 
 const view = { render };
-export default view;
 
 register(view, value => value === undefined);
 

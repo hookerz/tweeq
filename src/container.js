@@ -47,6 +47,8 @@ export default function(label) {
 
   }
 
+  Object.defineProperty(obj, 'view', { value: TweeqContainer });
+
   return obj;
 
 }

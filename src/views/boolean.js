@@ -4,7 +4,6 @@ import element from 'virtual-element';
 import { register } from '../control';
 
 const view = { render };
-export default view;
 
 register(view, value => (value === true) || (value === false));
 
@@ -22,7 +21,7 @@ function render({ props, state }, update) {
 
   }
 
-  return <div class={ classes } onclick={ clicked }>
+  return <div class={ classlist.join(' ') } onclick={ clicked }>
     <label>{ control.label }</label>
     <input type='checkbox' checked={ toggled }/>
   </div>

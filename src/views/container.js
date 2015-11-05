@@ -3,11 +3,12 @@
 import element from 'virtual-element';
 
 const view = { render };
+
 export default view;
 
 function render({ props, state }, update) {
 
-  let { depth = 0, container } = component.props;
+  let { depth = 0, container } = props;
   let open = state.open || props.open;
 
   function clicked(event) {
@@ -37,7 +38,7 @@ function render({ props, state }, update) {
         <i class='icon-down-dir'></i>
       </div>
 
-      {controls}
+      { controls }
 
     </div>
 
