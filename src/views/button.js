@@ -19,7 +19,7 @@ function render({ props, state }) {
     control.emit('change');
   }
 
-  return <div class={ classlist.join(' ') } onclick={ clicked }>
+  return <div class={ classlist.join(' ') } onClick={ clicked }>
     <label>{ control.label }</label>
   </div>
 

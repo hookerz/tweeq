@@ -26,7 +26,7 @@ function render({ props, state }, update) {
 
   return <div class={ classlist.join(' ') }>
     <label>{ control.label }</label>
-    <input type='text' onchange={ changed } value={ control.value }/>
+    <input type='text' onChange={ changed } value={ control.value }/>
   </div>
 
 }

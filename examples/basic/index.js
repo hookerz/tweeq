@@ -14,7 +14,7 @@ let controls = {
 
 lo.values(controls).map(control => {
 
-  control.on('change', value => console.log(value || '!'));
+  control.on('change', value => console.log(value));
   container.add(control);
 
 });

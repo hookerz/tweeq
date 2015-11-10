@@ -27,19 +27,25 @@
 
 .tweeq-control {
 
+  position: relative;
+
   display: flex;
   padding: 0.5rem;
   background: rgb(28,32,32);
 
   border-bottom: 1px solid rgb(52,56,56);
 
-  cursor: pointer;
-
 }
 
-.tweeq-container.depth-0 > .tweeq-control:last-child {
+.tweeq-control,
+.tweeq-control * {
 
-  border-bottom: none;
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
 }
 
@@ -47,11 +53,14 @@
 
   flex: 1 0 auto;
   align-self: center;
-  cursor: pointer;
 
 }
 
-.tweeq-control > input { margin: 0; }
+.tweeq-control > input {
+
+  margin: 0;
+
+}
 
 .tweeq-control > input[type='text'] {
 
@@ -69,19 +78,15 @@
 
 }
 
-.tweeq-button:hover {
-
-  color: rgba(0,0,0,0.8);
-
-}
-
 .tweeq-container > .tweeq-control::before {
 
   content: '';
-  width: 10px;
+  position: absolute;
+  top: 0; bottom: -1px; left: 0;
+  width: 5px;
 
 }
 
-.tweeq-container.depth-1 > .tweeq-control::before { background-color: rgb(238,58,35); }
-.tweeq-container.depth-2 > .tweeq-control::before { background-color: rgb(255,187,0); }
-.tweeq-container.depth-3 > .tweeq-control::before { background-color: rgb(140,214,58); }
+.tweeq-container.depth-1 > .tweeq-control::before { background-color: #f3175a; }
+.tweeq-container.depth-2 > .tweeq-control::before { background-color: #8c115e; }
+.tweeq-container.depth-3 > .tweeq-control::before { background-color: #3a0c61; }

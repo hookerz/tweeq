@@ -29,11 +29,11 @@ function render({ props, state }, update) {
 
     });
 
-    let classlist = [ 'tweeq-control', `depth-${ depth }` ];
+    let classlist = [ 'tweeq-container', `depth-${ depth }` ];
 
     return <div class={ classlist.join(' ') }>
 
-      <div class='tweeq-control tweeq-close' clicked={ clicked }>
+      <div class='tweeq-control tweeq-close' onClick={ clicked }>
         <label>{ container.label || 'collapse' }</label>
         <i class='icon-down-dir'></i>
       </div>
@@ -47,7 +47,7 @@ function render({ props, state }, update) {
 
     let classlist = [ 'tweeq-control', 'tweeq-open' ];
 
-    return <div class={ classlist.join(' ') } onclick={ clicked }>
+    return <div class={ classlist.join(' ') } onClick={ clicked }>
       <label>{ container.label || 'expand' }</label>
     </div>
 
