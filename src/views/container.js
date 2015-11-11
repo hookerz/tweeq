@@ -1,5 +1,3 @@
-/** @jsx element **/
-
 import element from 'virtual-element';
 
 const view = { render };

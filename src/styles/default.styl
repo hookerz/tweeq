@@ -1,0 +1,58 @@
+@import 'nib/positions'
+@import 'nib/size'
+
+.tweeq
+
+  absolute top 0 left 200px
+  size 250px auto
+  margin 0
+  padding 0
+
+  background rgb(35, 32, 40)
+
+  color white
+  font-size 0.6875em
+  font-family sans-serif
+  text-transform lowercase
+
+  *
+    margin 0
+    padding 0
+
+.tweeq-container
+
+  size 100% 100%
+
+  &.depth-1 > .tweeq-control::before
+    background-color rgb(32, 170, 239)
+
+  &.depth-2 > .tweeq-control::before
+    background-color rgb(29, 131, 181)
+
+  &.depth-3 > .tweeq-control::before
+    background-color rgb(20, 87, 114)
+
+.tweeq-control
+
+  position relative
+  padding 0.5rem
+  display flex
+
+  border-bottom 1px solid rgb(44,44,50)
+
+  &, & *
+
+    cursor pointer
+    user-select none
+
+  &::before
+
+    content ''
+    absolute top 0 left 0
+    size 5px 100%
+
+  > label
+  > input[type='text']
+
+    flex 1 0 auto
+    align-self center

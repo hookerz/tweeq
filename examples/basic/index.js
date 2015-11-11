@@ -1,5 +1,5 @@
 import lo from 'lodash';
-import tweeq from '../../src';
+import tweeq from 'tweeq';
 
 let container = tweeq.container();
 

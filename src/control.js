@@ -1,4 +1,4 @@
-import {EventEmitter} from 'events';
+import Emitter from 'component-emitter';
 
 // A list of data type registrations. These are used to map values to views.
 const registrations = [];
@@ -33,9 +33,8 @@ export default function(label, value) {
 
   }
 
-  // inherit EventEmitter
-  let obj = Object.create(EventEmitter.prototype);
-  EventEmitter.call(obj);
+  // inherit emitter
+  let obj = new Emitter();
 
   let reg = registrations.find(r => r.fit(value));
 

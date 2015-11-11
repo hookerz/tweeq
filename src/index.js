@@ -1,13 +1,21 @@
-import './style/default.css';
-import './style/icons.css';
 import './views/button';
 import './views/boolean';
 import './views/container';
 import './views/number';
 import './views/string';
-import 'babel-polyfill';
 
+import insertCSS from 'insert-css';
 import container from './container';
 import control from './control';
+import styles from './styles';
 
-export default { container, control };
+insertCSS(styles, { prepend: true });
+
+// Babel compiles `export default` to `exports.default` which means that any
+// CommonJS module would have to do
+//
+//   const tweeq = require('tweeq').default;
+//
+// which isn't awesome. Using `module.exports` keeps compatability.
+
+module.exports = { container, control };
