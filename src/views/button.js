@@ -9,15 +9,15 @@ function render({ props, state }) {
 
   let { control } = props;
 
-  let classlist = [ 'tweeq-control', 'tweeq-button' ];
-
   function clicked(event) {
+
     // Emit the change event directly because the button control doesn't have
-    // any value to update.
+    // any value we can set or state we can update.
     control.emit('change');
+
   }
 
-  return <div class={ classlist.join(' ') } onClick={ clicked }>
+  return <div onClick={ clicked }>
     <label>{ control.label }</label>
   </div>
 

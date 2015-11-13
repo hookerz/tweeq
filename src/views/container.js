@@ -19,11 +19,16 @@ function render({ props, state }, update) {
 
     let controls = container.children.map(child => {
 
-      let props = (child.view.render === render)
+      let isContainer = (child.view.render === render);
+
+      let props = (isContainer)
         ? { depth: depth + 1, container: child }
         : { control: child };
 
-      return element(child.view, props);
+      let markers =
+      let el = element(child.view, props);
+
+      return isContainer ? el : <div class='tweeq-row'>{ markers }{ el }</div>
 
     });
 
@@ -31,9 +36,11 @@ function render({ props, state }, update) {
 
     return <div class={ classlist.join(' ') }>
 
-      <div class='tweeq-control tweeq-close' onClick={ clicked }>
-        <label>{ container.label || 'collapse' }</label>
-        <i class='icon-down-dir'></i>
+      <div class='tweeq-row'>
+        <div onClick={ clicked }>
+          <label>{ container.label || 'collapse' }</label>
+          <i class='icon-down-dir'></i>
+        </div>
       </div>
 
       { controls }
@@ -43,11 +50,25 @@ function render({ props, state }, update) {
 
   } else {
 
-    let classlist = [ 'tweeq-control', 'tweeq-open' ];
+    // This is the closed view of the container. It's just a button that opens
+    // the container.
 
-    return <div class={ classlist.join(' ') } onClick={ clicked }>
-      <label>{ container.label || 'expand' }</label>
+    return <div class='tweeq-row'>
+      <div onClick={ clicked }>
+        <label>{ container.label || 'expand' }</label>
+      </div>
     </div>
 
   }
+}
+
+function flames(depth) {
+
+  let collection = [];
+
+  for (let i = 0; i < depth; i++)
+    markers.push(<div class='tweeq-depth'/>);
+
+  return collection;
+
 }

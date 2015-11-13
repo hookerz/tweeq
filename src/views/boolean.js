@@ -9,8 +9,6 @@ function render({ props, state }, update) {
 
   let { control } = props;
 
-  let classlist = [ 'tweeq-control', 'tweeq-boolean' ];
-
   function clicked(event) {
 
     control.value = !control.value;
@@ -18,7 +16,7 @@ function render({ props, state }, update) {
 
   }
 
-  return <div class={ classlist.join(' ') } onClick={ clicked }>
+  return <div onClick={ clicked }>
     <label>{ control.label }</label>
     <input type='checkbox' checked={ control.value }/>
   </div>

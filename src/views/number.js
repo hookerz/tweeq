@@ -10,19 +10,16 @@ function render({ props, state }, update) {
   let { control } = props;
   let { valid = true } = state;
 
-  let classlist = [ 'tweeq-control', 'tweeq-number' ];
-  if (!valid) classlist.push('invalid');
-
   function changed(event) {
     try {
-      control.value = parseInt(event.target.value);
+      control.value = Number(event.target.value);
       update({ valid: true });
     } catch(err) {
       update({ valid: false });
     }
   }
 
-  return <div class={ classlist.join(' ') }>
+  return <div>
     <label>{ control.label }</label>
     <input type='text' onChange={ changed } value={ control.value }/>
   </div>
