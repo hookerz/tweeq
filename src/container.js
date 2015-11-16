@@ -1,8 +1,6 @@
-/** @jsx element **/
-
 import element from 'virtual-element';
 import {render, tree} from 'deku';
-import TweeqContainer from './views/container';
+import TweeqContainer from './views/group';
 
 export default function(label) {
 

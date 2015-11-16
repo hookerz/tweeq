@@ -1,4 +1,5 @@
 @import 'nib/positions'
+@import 'nib/vendor'
 @import 'nib/size'
 
 .tweeq
@@ -19,25 +20,13 @@
     margin 0
     padding 0
 
-.tweeq-container
+.tweeq-group
 
   size 100% 100%
-
-  &.depth-1 > .tweeq-control::before
-    background-color rgb(32, 170, 239)
-
-  &.depth-2 > .tweeq-control::before
-    background-color rgb(29, 131, 181)
-
-  &.depth-3 > .tweeq-control::before
-    background-color rgb(20, 87, 114)
 
 .tweeq-row
 
   position relative
-  padding 0.5rem
-  display flex
-
   border-bottom 1px solid rgb(44,44,50)
 
   &, & *
@@ -45,14 +34,27 @@
     cursor pointer
     user-select none
 
+  > *
+
+    padding 5px
+
   > .tweeq-depth
 
-    content ''
-    absolute top 0 left 0
-    size 5px 100%
+    absolute top 0 bottom -1px
+    width 5px
+    padding 0
 
   > label
   > input[type='text']
 
     flex 1 0 auto
     align-self center
+
+.tweeq-depth.deep
+  background-color rgb(32, 170, 239)
+
+.tweeq-depth.ddeep
+  background-color rgb(29, 131, 181)
+
+.tweeq-depth.dddeep
+  background-color rgb(20, 87, 114)
