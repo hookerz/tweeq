@@ -8,10 +8,6 @@ const concat = require('gulp-concat');
 const babel = require('gulp-babel');
 const source = require('vinyl-source-stream');
 
-const task = gulp.task.bind(gulp);
-const series = gulp.series.bind(gulp);
-const parallel = gulp.parallel.bind(gulp);
-
 function clean() {
 
   return del('lib');
@@ -36,7 +32,18 @@ function scripts() {
 
 }
 
-task(clean);
-task(scripts);
-task(styles);
-task('build', series(clean, parallel(scripts, styles)))
+function watch() {
+
+  gulp.watch('src/**/*.styl', styles);
+  gulp.watch('src/**/*.js', scripts);
+
+}
+
+const series = gulp.series.bind(gulp);
+const parallel = gulp.parallel.bind(gulp);
+
+gulp.task(clean);
+gulp.task(scripts);
+gulp.task(styles);
+gulp.task('build', series(clean, parallel(scripts, styles)));
+gulp.task('watch', series('build', watch));
