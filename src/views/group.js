@@ -17,6 +17,8 @@ function render({ props, state }, update) {
 
   if (open) {
 
+    let style = `padding-left: ${ depth * 5 }px`;
+
     let controls = container.children.map(child => {
 
       let isContainer = (child.view.render === render);
@@ -27,13 +29,13 @@ function render({ props, state }, update) {
 
       let el = element(child.view, props);
 
-      return isContainer ? el : <div class='tweeq-row'>{ markers(depth) }{ el }</div>;
+      return isContainer ? el : <div class='tweeq-row' style={ style }>{ markers(depth) }{ el }</div>;
 
     });
 
     return <div class='tweeq-group'>
 
-      <div class='tweeq-row'>
+      <div class='tweeq-row' style={ style }>
         { markers(depth) }
         { closer(clicked, container.label) }
       </div>
@@ -48,7 +50,9 @@ function render({ props, state }, update) {
     // This is the closed view of the container. It's just a button that opens
     // the container.
 
-    return <div class='tweeq-row'>
+    let style = `padding-left: ${ (depth - 1) * 5 }px`;
+
+    return <div class='tweeq-row' style={ style }>
       { markers(depth - 1) }
       { opener(clicked, container.label) }
     </div>
