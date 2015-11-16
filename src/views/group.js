@@ -71,7 +71,7 @@ function opener(clicked, label) {
 
   return <div onClick={ clicked }>
     <label>{ label || 'expand' }</label>
-    <i class='icon-down-dir'></i>
+    <i class='icon-closed'></i>
   </div>
 
 }
@@ -80,7 +80,7 @@ function closer(clicked, label) {
 
   return <div onClick={ clicked }>
     <label>{ label || 'collapse' }</label>
-    <i class='icon-up-dir'></i>
+    <i class='icon-opened'></i>
   </div>
 
 }

@@ -1,6 +1,7 @@
 @import 'nib/positions'
 @import 'nib/vendor'
 @import 'nib/size'
+@import './font'
 
 .tweeq
 
@@ -36,7 +37,7 @@
 
   > *
 
-    padding 5px
+    padding 8px
 
   > label
   > input[type='text']
@@ -46,7 +47,7 @@
 
 .tweeq-depth
 
-  absolute top 0 bottom -1px
+  absolute top 0 bottom -1px // accomodate the row's border-bottom
   width 5px
   padding 0
 
