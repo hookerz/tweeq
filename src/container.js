@@ -1,6 +1,6 @@
 import element from 'virtual-element';
 import {render, tree} from 'deku';
-import TweeqContainer from './views/group';
+import TweeqGroup from './views/group';
 
 export default function(label) {
 
@@ -45,7 +45,7 @@ export default function(label) {
 
   }
 
-  Object.defineProperty(obj, 'view', { value: TweeqContainer });
+  Object.defineProperty(obj, 'view', { value: TweeqGroup });
 
   return obj;
 

@@ -29,7 +29,16 @@ function render({ props, state }, update) {
 
       let el = element(child.view, props);
 
-      return isContainer ? el : <div class='tweeq-row' style={ style }>{ markers(depth) }{ el }</div>;
+      // The container should not be wrapped in a row. It will either be
+      // rendered as a group, in which case it can't have any padding...
+      // or it will be rendered as an opener, which is already wrapped in
+      // a row.
+      if (isContainer) return el;
+
+      return <div class='tweeq-row' style={ style }>
+        { markers(depth) }
+        { el }
+      </div>;
 
     });
 
