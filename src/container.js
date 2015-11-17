@@ -33,9 +33,15 @@ export default function(label) {
   obj.mount = function mount(el) {
 
     console.log('mounting', el);
-    let view = tree(<TweeqContainer container={obj} open={true} />);
 
-    render(view, el);
+    let root = document.createElement('div');
+    root.classList.add('tweeq-root');
+
+    let view = tree(<TweeqGroup container={ obj } open={ true }/>);
+
+    el.appendChild(root);
+
+    render(view, root);
 
   }
 

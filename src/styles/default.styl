@@ -3,21 +3,19 @@
 @import 'nib/size'
 @import './font'
 
-.tweeq
+.tweeq-root
 
-  absolute top 0 left 200px
-  size 250px auto
-  margin 0
-  padding 0
-
-  background rgb(35, 32, 40)
+  width 250px
 
   color white
-  font-size 0.6875em
+  font-size 0.6875rem
   font-family sans-serif
   text-transform lowercase
 
-  *
+  background rgb(35, 32, 40)
+
+  &, & *
+
     margin 0
     padding 0
 
@@ -38,9 +36,10 @@
   > *
 
     padding 8px
+    display flex
 
-  > label
-  > input[type='text']
+  label
+  input[type='text']
 
     flex 1 0 auto
     align-self center

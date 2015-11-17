@@ -3,32 +3,25 @@ import tweeq from '../../';
 
 let container = tweeq.container();
 
-let controls = {
+let controls = [
 
-  button: tweeq.control('a button'),
-  toggle: tweeq.control('a toggle', true),
-  number: tweeq.control('a number', 100),
-  text:   tweeq.control('a textbox', 'hello world')
+  tweeq.control('a button'),
+  tweeq.control('a toggle', true),
+  tweeq.control('a number', 100),
+  tweeq.control('a textbox', 'hello world')
 
-};
+];
 
-lo.values(controls).map(control => {
+controls.forEach(control => {
 
   control.on('change', value => console.log(value));
   container.add(control);
 
 });
 
-let folder = tweeq.container('a folder');
-folder.add(tweeq.control('another button'));
+let target = document.getElementById('tweeq');
+target.style.position = 'absolute';
+target.style.right = '20%';
+target.style.top = 0;
 
-let folder2 = tweeq.container('a folder');
-folder2.add(tweeq.control('another button'));
-folder2.add(tweeq.control('another another button'));
-folder.add(folder2);
-
-folder.add(tweeq.control('another another button'));
-
-container.add(folder);
-
-container.mount(document.getElementById('tweeq'));
+container.mount(target);
