@@ -1,8 +1,8 @@
 import './views/button';
 import './views/boolean';
-import './views/container';
 import './views/number';
 import './views/string';
+import './views/group';
 
 import insertCSS from 'insert-css';
 import container from './container';
