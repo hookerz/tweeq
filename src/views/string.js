@@ -1,22 +1,24 @@
 import element from 'virtual-element';
-import { register } from '../control';
 
-const view = { render };
+function render(component, update) {
 
-register(view, value => typeof value === 'string');
-
-function render({ props, state }, update) {
-
-  let { control } = props;
-  let { valid = true } = state;
+  const { props, state } = component;
+  const { valid = true } = state;
+  const { control } = props;
 
   function changed(event) {
+    
     try {
+    
       control.value = event.target.value;
       update({ valid: true });
+    
     } catch(err) {
+    
       update({ valid: false });
+    
     }
+
   }
 
   return <div>
@@ -25,3 +27,5 @@ function render({ props, state }, update) {
   </div>
 
 }
+
+export default { render };

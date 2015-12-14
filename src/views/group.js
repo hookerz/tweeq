@@ -4,12 +4,15 @@ const view = { render };
 
 export default view;
 
-function render({ props, state }, update) {
+function render(component, update) {
 
-  let { depth = 0, container } = props;
-  let open = state.hasOwnProperty('open') ? state.open : props.open;
+  const { props, state } = component;
+  const { depth = 0, container } = props;
 
-  function clicked(event) {
+  // Prefer open-ness from the state, but accept it from the props.
+  const open = state.open !== undefined ? state.open : props.open;
+  
+  function clicked() {
 
     update({ open: !open });
 
@@ -53,7 +56,6 @@ function render({ props, state }, update) {
 
     </div>
 
-
   } else {
 
     // This is the closed view of the container. It's just a button that opens
@@ -69,6 +71,9 @@ function render({ props, state }, update) {
   }
 }
 
+/**
+ * Render a depth (number) as a classname (string).
+ */
 function deepness(depth) {
 
   depth = Math.max(1, depth);
@@ -76,6 +81,9 @@ function deepness(depth) {
 
 }
 
+/**
+ * Render an open button.
+ */
 function opener(clicked, label) {
 
   return <div onClick={ clicked }>
@@ -85,6 +93,9 @@ function opener(clicked, label) {
 
 }
 
+/**
+ * Render a close button.
+ */
 function closer(clicked, label) {
 
   return <div onClick={ clicked }>
@@ -94,6 +105,9 @@ function closer(clicked, label) {
 
 }
 
+/**
+ * Render a list of elements of `depth` length.
+ */
 function markers(depth) {
 
   let collection = [];
@@ -102,7 +116,7 @@ function markers(depth) {
 
     let style = `left: ${ i * 5 }px`;
     let classes = `tweeq-depth ${ deepness(i + 1) }`;
-    let el = <div class={ classes } style={ style } />;
+    let el = <div class={ classes } style={ style }/>;
 
     collection.push(el);
 

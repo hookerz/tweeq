@@ -1,29 +1,12 @@
 import Emitter from 'component-emitter';
 
-// A list of data type registrations. These are used to map values to views.
-const registrations = [];
-
-/**
- * Register a control view.
- *
- * @param view - A deku.js view object.
- * @param fit - A function that accepts a value, and returns true if the view
- *   can accept that type of value.
- *
- */
-export function register(view, fit) {
-
-  registrations.push({ view, fit });
-
-}
-
 /**
  * Create a new control.
  *
  * @param label - The label of the control.
  *
  */
-export default function(label, value) {
+export default function control(label, value) {
 
   if (typeof label !== 'string') {
 

@@ -6,27 +6,26 @@ export default function(label) {
 
   let obj = {};
 
-  let parent = undefined;
-  let children = [];
+  let el = document.createElement('div');
+  let controls = new Set();
 
-  obj.label = label;
-  obj.children = children;
+  /**
+   * Add a control to the container.
+   */
+  obj.add = function add(control) {
 
-  obj.type = 'container';
-
-  obj.add = function add(child) {
-
-    console.log('adding', child);
-    let i = children.indexOf(child);
-    if (i < 0) children.push(child);
+    console.log('adding', control);
+    controls.add(control);
 
   }
 
-  obj.remove = function remove(child) {
+  /**
+   * Remove a control from the container.
+   */
+  obj.remove = function remove(control) {
 
-    console.log('removing', child);
-    let i = children.indexOf(child);
-    if (i >= 0) children.splice(i, 1);
+    console.log('removing', control);
+    controls.delete(control);
 
   }
 
@@ -34,14 +33,14 @@ export default function(label) {
 
     console.log('mounting', el);
 
-    let root = document.createElement('div');
-    root.classList.add('tweeq-root');
+    let el = document.createElement('div');
+    el.classList.add('tweeq-root');
 
     let view = tree(<TweeqGroup container={ obj } open={ true }/>);
 
-    el.appendChild(root);
+    el.appendChild(el);
 
-    render(view, root);
+    render(view, el);
 
   }
 

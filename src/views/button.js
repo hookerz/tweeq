@@ -1,15 +1,11 @@
 import element from 'virtual-element';
-import { register } from '../control';
 
-const view = { render };
+function render(component) {
 
-register(view, value => value === undefined);
+  const { props } = component;
+  const { control } = props;
 
-function render({ props, state }) {
-
-  let { control } = props;
-
-  function clicked(event) {
+  function clicked() {
 
     // Emit the change event directly because the button control doesn't have
     // any value we can set or state we can update.
@@ -22,3 +18,5 @@ function render({ props, state }) {
   </div>
 
 }
+
+export default { render };
