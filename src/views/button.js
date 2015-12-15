@@ -1,9 +1,8 @@
 import element from 'virtual-element';
 
-function render(component) {
+export default function(component) {
 
-  const { props } = component;
-  const { control } = props;
+  const { control } = component.props;
 
   function clicked() {
 
@@ -18,5 +17,3 @@ function render(component) {
   </div>
 
 }
-
-export default { render };

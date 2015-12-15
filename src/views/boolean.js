@@ -1,14 +1,12 @@
 import element from 'virtual-element';
 
-function render(component, update) {
+export default function(component) {
 
-  const { props } = component;
-  const { control } = props;
+  const { control } = component.props;
 
   function clicked() {
 
     control.value = !control.value;
-    update({ valid: true });
 
   }
 
@@ -18,5 +16,3 @@ function render(component, update) {
   </div>
 
 }
-
-export default { render };

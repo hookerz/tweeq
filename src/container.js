@@ -1,57 +1,61 @@
+import deku from 'deku';
 import element from 'virtual-element';
-import {render, tree} from 'deku';
-import TweeqGroup from './views/group';
+import views from './views';
 
 export default function(label) {
 
-  let obj = {};
-
-  let el = document.createElement('div');
-  let controls = new Set();
+  const children = new Set();
 
   /**
-   * Add a control to the container.
+   * Add a child to the container.
    */
-  obj.add = function add(control) {
+  function add(child) {
 
-    console.log('adding', control);
-    controls.add(control);
+    children.add(child);
 
   }
 
   /**
-   * Remove a control from the container.
+   * Remove a child from the container.
    */
-  obj.remove = function remove(control) {
+  function remove(child) {
 
-    console.log('removing', control);
-    controls.delete(control);
-
-  }
-
-  obj.mount = function mount(el) {
-
-    console.log('mounting', el);
-
-    let el = document.createElement('div');
-    el.classList.add('tweeq-root');
-
-    let view = tree(<TweeqGroup container={ obj } open={ true }/>);
-
-    el.appendChild(el);
-
-    render(view, el);
+    children.delete(child);
 
   }
 
-  obj.unmount = function unmount(el) {
+  /**
+   * Used by deku to render the container.
+   */
+  function render() {
+
+    return element(views.group, { label }, ...children);
+
+  }
+
+  /**
+   * Render the container and all of its children as a DOM tree, and append it to the provided element.
+   */
+  function mount(el) {
+
+    const root = element('div', { class: 'tweeq-root' }, render());
+    const tree = deku.tree(root);
+
+    return deku.render(tree, el);
+
+  }
+
+  /**
+   * Remove the container from the provided element.
+   */
+  function unmount(el) {
 
     console.log('unmounting', el);
 
+    // TODO
+
   }
 
-  Object.defineProperty(obj, 'view', { value: TweeqGroup });
-
-  return obj;
+  return { add, remove, render, mount, unmount };
 
 }

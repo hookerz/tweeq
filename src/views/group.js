@@ -1,74 +1,20 @@
 import element from 'virtual-element';
 
-const view = { render };
-
-export default view;
-
-function render(component, update) {
+export default function(component, update) {
 
   const { props, state } = component;
-  const { depth = 0, container } = props;
 
   // Prefer open-ness from the state, but accept it from the props.
   const open = state.open !== undefined ? state.open : props.open;
-  
+
   function clicked() {
 
     update({ open: !open });
 
   }
 
-  if (open) {
+  return element(openedView, props);
 
-    let style = `padding-left: ${ depth * 5 }px`;
-
-    let controls = container.children.map(child => {
-
-      let isContainer = (child.view.render === render);
-
-      let props = (isContainer)
-        ? { depth: depth + 1, container: child }
-        : { control: child };
-
-      let el = element(child.view, props);
-
-      // The container should not be wrapped in a row. It will either be
-      // rendered as a group, in which case it can't have any padding...
-      // or it will be rendered as an opener, which is already wrapped in
-      // a row.
-      if (isContainer) return el;
-
-      return <div class='tweeq-row' style={ style }>
-        { markers(depth) }
-        { el }
-      </div>;
-
-    });
-
-    return <div class='tweeq-group'>
-
-      <div class='tweeq-row' style={ style }>
-        { markers(depth) }
-        { closer(clicked, container.label) }
-      </div>
-
-      { controls }
-
-    </div>
-
-  } else {
-
-    // This is the closed view of the container. It's just a button that opens
-    // the container.
-
-    let style = `padding-left: ${ (depth - 1) * 5 }px`;
-
-    return <div class='tweeq-row' style={ style }>
-      { markers(depth - 1) }
-      { opener(clicked, container.label) }
-    </div>
-
-  }
 }
 
 /**
@@ -89,18 +35,6 @@ function opener(clicked, label) {
   return <div onClick={ clicked }>
     <label>{ label || 'expand' }</label>
     <i class='icon-closed'></i>
-  </div>
-
-}
-
-/**
- * Render a close button.
- */
-function closer(clicked, label) {
-
-  return <div onClick={ clicked }>
-    <label>{ label || 'collapse' }</label>
-    <i class='icon-opened'></i>
   </div>
 
 }

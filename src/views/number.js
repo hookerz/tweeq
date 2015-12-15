@@ -1,10 +1,9 @@
 import element from 'virtual-element';
 
-function render(component, update) {
+export default function(component, update) {
 
-  const { props, state } = component;
-  const { valid = true } = state;
-  const { control } = props;
+  const { control } = component.props;
+  const { valid = true } = component.state;
 
   function changed(event) {
   
@@ -27,5 +26,3 @@ function render(component, update) {
   </div>
 
 }
-
-export default { render };
