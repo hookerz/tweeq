@@ -1,3 +1,5 @@
+/** @jsx element */
+
 import element from 'virtual-element';
 
 export default function(component, update) {
@@ -10,7 +12,7 @@ export default function(component, update) {
   // Map the children to rows of elements.
   let rows = children.map(child => {
 
-    return child;
+    return element(child);
 
   });
 

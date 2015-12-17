@@ -1,7 +1,8 @@
 import insertCSS from 'insert-css';
 
 import container from './container';
-import control from './control';
+import control, { register } from './control';
+
 import styles from './styles';
 import views from './views';
 
@@ -9,10 +10,10 @@ import views from './views';
 insertCSS(styles, { prepend: true });
 
 // Register the default views.
-control.register(views.button,  value => typeof value === 'undefined');
-control.register(views.boolean, value => typeof value === 'boolean');
-control.register(views.string,  value => typeof value === 'string');
-control.register(views.number,  value => Number.isFinite(value));
+register(views.button,  value => typeof value === 'undefined');
+register(views.boolean, value => typeof value === 'boolean');
+register(views.string,  value => typeof value === 'string');
+register(views.number,  value => Number.isFinite(value));
 
 // Babel compiles `export default` to `exports.default` which means that any
 // CommonJS module would have to do
@@ -21,4 +22,4 @@ control.register(views.number,  value => Number.isFinite(value));
 //
 // which isn't awesome. Using `module.exports` keeps compatability.
 
-module.exports = { container, control };
+module.exports = { container, control, register };

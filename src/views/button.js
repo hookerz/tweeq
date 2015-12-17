@@ -1,3 +1,5 @@
+/** @jsx element */
+
 import element from 'virtual-element';
 
 export default function(component) {
@@ -13,7 +15,7 @@ export default function(component) {
   }
 
   return <div onClick={ clicked }>
-    <label>{ control.label }</label>
-  </div>
+           <label>{ control.label }</label>
+         </div>
 
 }

@@ -19,9 +19,9 @@ controls.forEach(control => {
 
 });
 
-let target = document.getElementById('tweeq');
-target.style.position = 'absolute';
-target.style.right = '20%';
-target.style.top = 0;
+let mountpoint = document.getElementById('mount');
+mountpoint.style.position = 'absolute';
+mountpoint.style.left = '20%';
+mountpoint.style.top = 0;
 
-container.mount(target);
+container.mount(mountpoint);

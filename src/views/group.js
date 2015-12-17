@@ -1,4 +1,7 @@
+/** @jsx element */
+
 import element from 'virtual-element';
+import openedView from './group-open';
 
 export default function(component, update) {
 

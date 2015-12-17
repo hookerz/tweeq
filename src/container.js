@@ -4,32 +4,25 @@ import views from './views';
 
 export default function(label) {
 
+  const container = { add, remove, mount, unmount };
+
   const children = new Set();
 
   /**
-   * Add a child to the container.
+   * Add children to the container.
    */
-  function add(child) {
+  function add(...childs) {
 
-    children.add(child);
+    childs.forEach(child => children.add(child));
 
   }
 
   /**
-   * Remove a child from the container.
+   * Remove children from the container.
    */
-  function remove(child) {
+  function remove(...childs) {
 
-    children.delete(child);
-
-  }
-
-  /**
-   * Used by deku to render the container.
-   */
-  function render() {
-
-    return element(views.group, { label }, ...children);
+    childs.forEach(child => children.delete(child));
 
   }
 
@@ -38,10 +31,10 @@ export default function(label) {
    */
   function mount(el) {
 
-    const root = element('div', { class: 'tweeq-root' }, render());
-    const tree = deku.tree(root);
+    const group = element(views.group, { label, children: Array.from(children) });
+    const root  = element('div', { class: 'tweeq-root' }, group);
 
-    return deku.render(tree, el);
+    deku.render(deku.tree(root), el);
 
   }
 
@@ -56,6 +49,6 @@ export default function(label) {
 
   }
 
-  return { add, remove, render, mount, unmount };
+  return container;
 
 }
