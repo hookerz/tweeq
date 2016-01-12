@@ -9,6 +9,7 @@
     "component-emitter": "^1.2.0",
     "deku": "^1.0.0",
     "insert-css": "^0.2.0",
+    "redux": "^3.0.5",
     "virtual-element": "^1.2.0"
   },
   "devDependencies": {
@@ -22,11 +23,12 @@
     "cssify": "^1.0.1",
     "del": "^2.2.0",
     "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-stylus": "^2.1.1",
     "gulp-babel": "^6.1.1",
     "gulp-concat": "^2.6.0",
+    "gulp-stylus": "^2.1.1",
     "gulp-wrap": "^0.11.0",
     "nib": "^1.1.0",
+    "tape": "^4.4.0",
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^3.31.0"
   }
