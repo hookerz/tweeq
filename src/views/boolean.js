@@ -1,20 +1,22 @@
-/** @jsx element */
+/** @jsx el */
 
-import element from 'virtual-element';
+function fit(value) {
 
-export default function(component) {
+  return value === true || value === false;
 
-  const { control } = component.props;
+}
 
-  function clicked() {
+function render(control, el) {
 
-    control.value = !control.value;
+  let { label, value } = control;
 
-  }
+  let clicked = event => control.update(!value);
 
   return <div onClick={ clicked }>
-    <label>{ control.label }</label>
-    <input type='checkbox' checked={ control.value }/>
+    <label>{ label }</label>
+    <input type='checkbox' checked={ value }/>
   </div>
 
 }
+
+export default { fit, render };

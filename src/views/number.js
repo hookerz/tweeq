@@ -1,30 +1,22 @@
-/** @jsx element */
+/** @jsx el */
 
-import element from 'virtual-element';
+function fit(value) {
 
-export default function(component, update) {
+  return Number.isFinite(value);
 
-  const { control } = component.props;
-  const { valid = true } = component.state;
+}
 
-  function changed(event) {
+function render(control, el) {
 
-    try {
+  let { label, value } = control;
 
-      control.value = Number(event.target.value);
-      update({ valid: true });
-
-    } catch(err) {
-
-      update({ valid: false });
-
-    }
-
-  }
+  let changed = event => control.update(value);
 
   return <div>
-    <label>{ control.label }</label>
-    <input type='text' onChange={ changed } value={ control.value }/>
+    <label>{ label }</label>
+    <input type='text' onChange={ changed } value={ value }/>
   </div>
 
 }
+
+export default { fit, render };

@@ -1,51 +1,54 @@
-import deku from 'deku';
-import element from 'virtual-element';
+/** @jsx el */
+
+import { dom, element as el } from 'deku';
 import views from './views';
 
 export default function(label) {
 
-  const container = { add, remove, mount, unmount };
-
-  const children = new Set();
+  let container = {};
+  let children = [];
 
   /**
    * Add children to the container.
    */
-  function add(...childs) {
+  container.add = function(...rest) {
 
-    childs.forEach(child => children.add(child));
+    children = children.concat(rest);
 
   }
 
   /**
    * Remove children from the container.
    */
-  function remove(...childs) {
+  container.remove = function(...rest) {
 
-    childs.forEach(child => children.delete(child));
+    children = children.filter(c => rest.indexOf(c) > 0);
 
   }
 
   /**
    * Render the container and all of its children as a DOM tree, and append it to the provided element.
    */
-  function mount(el) {
+  container.mount = function(mountpoint) {
 
-    const group = element(views.group, { label, children: Array.from(children) });
-    const root  = element('div', { class: 'tweeq-root' }, group);
-
-    deku.render(deku.tree(root), el);
+    let render = dom.createRenderer(mountpoint);
+    render(<div class='tweeq-root'><container/></div>);
 
   }
 
   /**
    * Remove the container from the provided element.
    */
-  function unmount(el) {
+  container.unmount = function(el) {
 
-    console.log('unmounting', el);
-
+    console.log('unmounting');
     // TODO
+
+  }
+
+  container.render = function() {
+
+    return <div>children: { children.length }</div>
 
   }
 

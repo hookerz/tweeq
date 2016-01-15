@@ -1,4 +1,3 @@
-import element from 'virtual-element';
 import emitter from 'component-emitter';
 import assert from './assert';
 
@@ -11,9 +10,9 @@ const extensions = [];
  * @param filter
  *
  */
-export function extend(factory, filter) {
+export function extend(view) {
 
-  extensions.push({ factory, filter });
+  extensions.push(view);
 
 }
 
@@ -29,7 +28,6 @@ export default function(options, ...rest) {
   let label, value;
 
   // Normalize the arguments.
-
   if (typeof options === 'string') {
 
     label = options;
@@ -45,51 +43,40 @@ export default function(options, ...rest) {
   }
 
   // Construct a new control that extends event emitter.
+  const control = Object.create(emitter.prototype);
 
-  const control = Object.create(emitter.prototype, {
-
-    value: { get: getter, set: setter, enumerable: true }
-
-  });
+  // Define the value as a read-only property of the control.
+  Object.defineProperty(control, 'value', { value, writable: false, enumerable: true });
 
   // Search the control registry for a view that can render/modify this value.
-
-  const ext = extensions.find(ext => ext.fit(value));
-
-  assert(ext, `Unrecognized value ${ value }. You need to register a view that fits this value.`);
-
-  /**
-   * Get the value of the control.
-   */
-  function getter() {
-
-    return value;
-
-  }
+  const view = extensions.find(view => view.fit(value));
+  assert(view, `Unrecognized value ${ value }. You need to register a view that fits this value.`);
 
   /**
    * Set the value of the control.
    */
-  function setter(next) {
+  control.update = function(next) {
 
-    // Use the original registration to make sure the new value fits.
-    assert(ext.fit(next), `Invalid value ${ next } for this control.`);
+    // Use the original view extension to make sure the new value fits.
+    assert(view.fit(next), `Invalid value ${ next } for this control.`);
 
     // Only emit meaningful change events.
     // TODO handle nested equality like { x, y, z };
-    if (next === value) return;
+    if (next !== value) {
 
-    value = next;
-    control.emit('change', value);
+      value = next;
+      control.emit('change', value);
+
+    }
 
   }
 
   /**
    * Used by deku to render the container.
    */
-  control.render = function render() {
+  control.render = function() {
 
-    return element(ext.factory, { control });
+    return view.render(control, el);
 
   }
 

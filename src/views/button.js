@@ -1,21 +1,22 @@
-/** @jsx element */
+/** @jsx el */
 
-import element from 'virtual-element';
+function fit(value) {
 
-export default function(component) {
-
-  const { control } = component.props;
-
-  function clicked() {
-
-    // Emit the change event directly because the button control doesn't have
-    // any value we can set or state we can update.
-    control.emit('change');
-
-  }
-
-  return <div onClick={ clicked }>
-           <label>{ control.label }</label>
-         </div>
+  return value === undefined;
 
 }
+
+function render(control, el) {
+
+  let { label, value } = control;
+
+  // Emit the change event directly, because there is no value to update.
+  let clicked = event => control.emit('change');
+
+  return <div onClick={ clicked }>
+    <label>{ label }</label>
+  </div>
+
+}
+
+export default { fit, render };

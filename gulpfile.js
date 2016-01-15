@@ -1,12 +1,11 @@
-const del = require('del');
-const gulp = require('gulp');
-const argv = require('yargs').argv;
-const stylus = require('gulp-stylus');
-const wrap = require('gulp-wrap');
-const nib = require('nib');
+const argv   = require('yargs').argv;
+const babel  = require('gulp-babel');
 const concat = require('gulp-concat');
-const babel = require('gulp-babel');
-const source = require('vinyl-source-stream');
+const del    = require('del');
+const gulp   = require('gulp');
+const nib    = require('nib');
+const stylus = require('gulp-stylus');
+const wrap   = require('gulp-wrap');
 
 function clean() {
 

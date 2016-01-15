@@ -1,27 +1,20 @@
-import lo from 'lodash';
 import tweeq from '../../';
 
-function fit(value, metadata) {
+function iscounter(value) {
 
-  return typeof value !== undefined &&
-    Number.isFinite(value.x) &&
-    Number.isFinite(value.y) &&
-    Number.isFinite(value.z);
+  return Number.isFinite(value);
 
 }
 
-function factory(control) {
+function counter(control, update) {
 
-  let el = document.createElement('div');
+  let clicked = event => update(value + 1);
 
-  let label = document.createElement('label');
-  label.appendChild(control.label);
-
-  let x = document.createElement('number');
-
-
-  return el;
+  return <div onClick={ clicked }>
+    <label>{ control.label }</label>
+    <div>{ control.value }</div>
+  </div>;
 
 }
 
-tweeq.register()
+tweeq.register('my-counter', iscounter);
