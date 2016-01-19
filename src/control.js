@@ -1,5 +1,6 @@
 import emitter from 'component-emitter';
-import assert from './assert';
+import actions from './store/actions';
+import store from './store';
 
 const extensions = [];
 
@@ -19,66 +20,63 @@ export function extend(view) {
 /**
  * Create a new control.
  *
- * @param label - The label of the control.
+ * @param name - The name of the control.
  * @param value - The value of the control.
  *
  */
-export default function(options, ...rest) {
-
-  let label, value;
+export default function control(options, ...rest) {
 
   // Normalize the arguments.
   if (typeof options === 'string') {
 
-    label = options;
-    value = rest[0];
+    let name = options;
+    let value = rest[0];
 
-    options = { label, value };
-
-  } else {
-
-    label = options.label;
-    value = options.value;
+    options = { name, value };
 
   }
 
-  // Construct a new control that extends event emitter.
-  const control = Object.create(emitter.prototype);
+  const id = actions.create({ name: options.name, value: options.value });
 
-  // Define the value as a read-only property of the control.
-  Object.defineProperty(control, 'value', { value, writable: false, enumerable: true });
+  const control = Object.create(emitter.prototype, {
 
-  // Search the control registry for a view that can render/modify this value.
-  const view = extensions.find(view => view.fit(value));
-  assert(view, `Unrecognized value ${ value }. You need to register a view that fits this value.`);
+    name: {
 
-  /**
-   * Set the value of the control.
-   */
-  control.update = function(next) {
+      get: () => actions.get(id).name,
+      set: () => { throw new Error() },
+      enumerable: true
 
-    // Use the original view extension to make sure the new value fits.
-    assert(view.fit(next), `Invalid value ${ next } for this control.`);
+    },
 
-    // Only emit meaningful change events.
-    // TODO handle nested equality like { x, y, z };
-    if (next !== value) {
+    value: {
 
-      value = next;
-      control.emit('change', value);
+      get: () => actions.get(id).value,
+      set: () => { throw new Error() },
+      enumerable: true
 
     }
 
-  }
+  });
 
-  /**
-   * Used by deku to render the container.
-   */
-  control.render = function() {
+  control.update = function(next) {
 
-    return view.render(control, el);
+    actions.update(id, { value: next });
 
-  }
+  };
+
+  // Track the previous value so we can emit meaningful events.
+  let previous = options.value;
+
+  store.subscribe(function() {
+
+    if (control.value !== previous) {
+
+      previous = control.value;
+      control.emit('change', control.value);
+
+    }
+
+  });
 
   return control;
 

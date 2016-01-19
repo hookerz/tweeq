@@ -12,10 +12,14 @@ let controls = [
 
 ];
 
+window.controls = controls;
+
 for (let control of controls) {
 
-  control.on('change', value => console.log(value));
   container.add(control);
+
+  // Log any changes to the console.
+  control.on('change', value => console.log(value));
 
 }
 

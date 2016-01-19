@@ -1,12 +1,14 @@
 /** @jsx el */
 
+import { element as el } from 'deku';
+
 function fit(value) {
 
   return typeof value === 'string';
 
 }
 
-function render(control, el) {
+function render(control) {
 
   let { label, value } = control;
 

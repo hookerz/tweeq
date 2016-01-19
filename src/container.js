@@ -6,14 +6,14 @@ import views from './views';
 export default function(label) {
 
   let container = {};
-  let children = [];
+  // let children = [];
 
   /**
    * Add children to the container.
    */
   container.add = function(...rest) {
 
-    children = children.concat(rest);
+    // children = children.concat(rest);
 
   }
 
@@ -22,7 +22,7 @@ export default function(label) {
    */
   container.remove = function(...rest) {
 
-    children = children.filter(c => rest.indexOf(c) > 0);
+    // children = children.filter(c => rest.indexOf(c) > 0);
 
   }
 
@@ -31,8 +31,7 @@ export default function(label) {
    */
   container.mount = function(mountpoint) {
 
-    let render = dom.createRenderer(mountpoint);
-    render(<div class='tweeq-root'><container/></div>);
+    console.log('mounting');
 
   }
 
@@ -43,12 +42,6 @@ export default function(label) {
 
     console.log('unmounting');
     // TODO
-
-  }
-
-  container.render = function() {
-
-    return <div>children: { children.length }</div>
 
   }
 
