@@ -36,31 +36,33 @@ export default function control(options, ...rest) {
 
   }
 
-  const id = actions.create({ name: options.name, value: options.value });
+  const id = actions.createControl({ name: options.name, value: options.value });
 
   const control = Object.create(emitter.prototype, {
 
-    name: {
+    id: {
+      value: id,
+      writable: false,
+      enumerable: false
+    },
 
+    name: {
       get: () => actions.get(id).name,
       set: () => { throw new Error() },
       enumerable: true
-
     },
 
     value: {
-
       get: () => actions.get(id).value,
       set: () => { throw new Error() },
       enumerable: true
-
     }
 
   });
 
   control.update = function(next) {
 
-    actions.update(id, { value: next });
+    actions.updateControl(id, { value: next });
 
   };
 

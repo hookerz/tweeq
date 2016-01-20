@@ -1,7 +1,11 @@
 export default {
 
-  create: 'create control',
-  remove: 'remove control',
-  update: 'update control'
+  createControl: 'create control',
+  updateControl: 'update control',
+
+  parentControl: 'parent control',
+  orphanControl: 'orphan control',
+
+  createContainer: 'create container'
 
 }

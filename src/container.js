@@ -3,15 +3,26 @@
 import { dom, element as el } from 'deku';
 import views from './views';
 
-export default function(label) {
+export default function container(name) {
 
-  let container = {};
-  // let children = [];
+  const id = actions.createContainer({ name });
+
+  const container = Object.create({}, {
+
+    id: {
+      value: id,
+      writable: false,
+      enumerable: false
+    }
+
+  });
 
   /**
    * Add children to the container.
    */
-  container.add = function(...rest) {
+  container.add = function(control) {
+
+    actions.parentControl(control.id, id);
 
     // children = children.concat(rest);
 
@@ -20,9 +31,9 @@ export default function(label) {
   /**
    * Remove children from the container.
    */
-  container.remove = function(...rest) {
+  container.remove = function(control) {
 
-    // children = children.filter(c => rest.indexOf(c) > 0);
+    actions.orphanControl(control.id, id);
 
   }
 
@@ -41,7 +52,6 @@ export default function(label) {
   container.unmount = function(el) {
 
     console.log('unmounting');
-    // TODO
 
   }
 

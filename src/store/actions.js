@@ -1,14 +1,10 @@
 import types from './types';
+import store from './index';
 
-let nextID = 0;
+function* nextID() {
 
-export function create({ name, value }) {
-
-  let id = nextID++;
-
-  store.dispatch({ type: types.create, id, name, value });
-
-  return id;
+  let id = 0;
+  while (true) yield id++;
 
 }
 
@@ -18,12 +14,42 @@ export function get(id) {
 
 }
 
-export function update(id, { name, value }) {
+export function createControl({ name, value }) {
 
-  store.dispatch({ type: types.update, id, name, value });
+  let id = nextID();
+
+  store.dispatch({ type: types.create, id, name, value });
 
   return id;
 
 }
 
-export default { create, get, update };
+export function updateControl(id, { name, value }) {
+
+  store.dispatch({ type: types.updateControl, id, name, value });
+
+}
+
+export function parentControl(id, parent) {
+
+  store.dispatch({ type: types.parentControl, id, parent });
+
+}
+
+export function orphanControl(id, parent) {
+
+  store.dispatch({ type: types.orphanControl, id, parent });
+
+}
+
+export function createContainer({ name }) {
+
+  let id = nextID();
+
+  store.dispatch({ type: types.createContainer, id, name });
+
+  return id;
+
+}
+
+export default { get, createControl, updateControl, parentControl, orphanControl, createContainer };
