@@ -37,8 +37,13 @@ export default function control(options, ...rest) {
 
   let { name, value } = options;
 
+  // Before we do anything, look for a view extension that can render this
+  // value. Reject it if we can't find one.
+  let view = extensions.find(ext => ext.fit(value));
+  if (view === undefined) throw new Error(`Unable to find a suitable control for ${ value }`);
+
   // Construct the control with its properties.
-  const control = Object.create(emitter.prototype, {
+  let control = Object.create(emitter.prototype, {
 
     name: {
       value: name,
@@ -53,9 +58,6 @@ export default function control(options, ...rest) {
     }
 
   });
-
-  const view = extensions.find(ext => ext.fit(value));
-  if (view === undefined) throw new Error(`Unable to find a suitable control for ${ value }`);
 
   /**
    * Modify the value of the control directly.
@@ -74,10 +76,11 @@ export default function control(options, ...rest) {
   };
 
   /**
-   * Used by Deku to render the view.
+   * Used by Deku to render the control.
    */
   control.render = function() {
 
+    // Render the view using the custom Tweeq extension signature.
     return view.render(control, el);
 
   }

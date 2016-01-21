@@ -1,18 +1,22 @@
-/** @jsx el */
-
 import { createApp, element as el } from 'deku';
 import debounce from 'lodash.debounce';
 import emitter from 'component-emitter';
-import view from './views/group';
+import views from './views';
 
-export default function container(name) {
+export default function container(name = 'default') {
 
-  const container = Object.create(emitter.prototype);
+  let container = Object.create(emitter.prototype);
 
   let children = [];
 
   // Echoes render events from the children.
-  const echo = event => container.emit('render');
+  let echo = event => container.emit('render');
+
+  // Toggles the open-ness of the container and rerenders the container.
+  let toggle = event => { open = !open; container.emit('render'); };
+
+  // Tracks whether the container view is open or closed.
+  let open = false;
 
   /**
    * Add children to the container.
@@ -41,11 +45,16 @@ export default function container(name) {
 
     console.log('mounting');
 
-    const renderer = createApp(target);
-    const render = function() {
+    let renderer = createApp(target);
+
+    let render = function() {
 
       console.log('rendering');
-      renderer(<div class='tweeq-root'>{ el(container) }</div>);
+
+      let rendered = el(container);
+      let rootnode = el('div', { class: 'tweeq-root' }, rendered);
+
+      renderer(rootnode);
 
     };
 
@@ -69,7 +78,10 @@ export default function container(name) {
 
   container.render = function() {
 
-    return view.render(children, el);
+    let view = open ? views.groupOpened : views.groupClosed;
+
+    // Render the view with some named parameters.
+    return view.render({ name, children, toggle })
 
   }
 

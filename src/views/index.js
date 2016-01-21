@@ -1,15 +1,4 @@
-import boolean from './control-boolean';
-import button  from './control-button';
-import number  from './control-number';
-import string  from './control-string';
-import group   from './group';
+import groupOpened from './group-opened';
+import groupClosed from './group-closed';
 
-export default {
-
-  boolean,
-  button,
-  number,
-  string,
-  group
-
-}
+export default { groupOpened, groupClosed };

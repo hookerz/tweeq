@@ -11,7 +11,7 @@ function render(control, el) {
   let onClick = event => control.update(!value);
 
   let label = el('label', null, name);
-  let input = el('input', { type: 'checkbox', checkbox: value });
+  let input = el('input', { type: 'checkbox', checked: value });
 
   return el('div', { onClick }, label, input);
 
