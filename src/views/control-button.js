@@ -1,5 +1,3 @@
-/** @jsx el */
-
 function fit(value) {
 
   return value === undefined;
@@ -8,16 +6,13 @@ function fit(value) {
 
 function render(control, el) {
 
-  const { name, value } = control;
-  const clicked = event => control.emit('change');
+  let { name, value } = control;
 
-  return (
+  let onClick = event => control.emit('change');
 
-    <div onClick={ clicked }>
-      <name>{ name }</name>
-    </div>
+  let label = el('label', null, name);
 
-  );
+  return el('div', { onClick }, label);
 
 }
 

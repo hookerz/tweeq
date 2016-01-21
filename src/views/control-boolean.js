@@ -1,5 +1,3 @@
-/** @jsx el */
-
 function fit(value) {
 
   return value === true || value === false;
@@ -8,17 +6,14 @@ function fit(value) {
 
 function render(control, el) {
 
-  const { name, value } = control;
-  const clicked = event => control.update(!value);
+  let { name, value } = control;
 
-  return (
+  let onClick = event => control.update(!value);
 
-    <div onClick={ clicked }>
-      <name>{ name }</name>
-      <input type='checkbox' checked={ value }/>
-    </div>
+  let label = el('label', null, name);
+  let input = el('input', { type: 'checkbox', checkbox: value });
 
-  );
+  return el('div', { onClick }, label, input);
 
 }
 

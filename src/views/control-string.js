@@ -1,5 +1,3 @@
-/** @jsx el */
-
 function fit(value) {
 
   return typeof value === 'string';
@@ -8,17 +6,14 @@ function fit(value) {
 
 function render(control, el) {
 
-  const { name, value } = control;
-  const changed = event => control.update(event.target.value);
+  let { name, value } = control;
 
-  return (
+  let onChange = event => control.update(event.target.value);
 
-    <div>
-      <name>{ name }</name>
-      <input type='text' onChange={ changed } value={ value }/>
-    </div>
+  let label = el('label', null, name);
+  let input = el('input', { type: 'text', value, onChange });
 
-  );
+  return el('div', null, label, input);
 
 }
 

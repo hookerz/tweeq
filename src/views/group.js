@@ -2,19 +2,12 @@
 
 function render(controls, el) {
 
-  const rows = controls.map(control => {
+  let views = controls.map(el);
 
-    return <div class='tweeq-row'>{ el(control) }</div>
+  // Wrap each view in a row node, so we can get consistent layout.
+  let rows = views.map(view => el('div', { class: 'tweeq-row' }, view));
 
-  });
-
-  return (
-
-    <div class='tweeq-group'>
-      { rows }
-    </div>
-
-  );
+  return el('div', { class: 'tweeq-group' }, rows);
 
 }
 
