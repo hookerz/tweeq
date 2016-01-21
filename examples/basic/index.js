@@ -12,6 +12,7 @@ let controls = [
 
 ];
 
+window.container = container;
 window.controls = controls;
 
 for (let control of controls) {

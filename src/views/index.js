@@ -1,13 +1,15 @@
-import boolean from './boolean';
-import button  from './button';
-import number  from './number';
-import string  from './string';
+import boolean from './control-boolean';
+import button  from './control-button';
+import number  from './control-number';
+import string  from './control-string';
+import group   from './group';
 
 export default {
 
   boolean,
   button,
   number,
-  string
+  string,
+  group
 
 }

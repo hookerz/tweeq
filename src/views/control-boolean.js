@@ -1,23 +1,20 @@
 /** @jsx el */
 
-import { element as el } from 'deku';
-
 function fit(value) {
 
   return value === true || value === false;
 
 }
 
-function render(control) {
+function render(control, el) {
 
-  let { label, value } = control;
-
-  let clicked = event => control.update(!value);
+  const { name, value } = control;
+  const clicked = event => control.update(!value);
 
   return (
 
     <div onClick={ clicked }>
-      <label>{ label }</label>
+      <name>{ name }</name>
       <input type='checkbox' checked={ value }/>
     </div>
 

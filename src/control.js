@@ -1,6 +1,5 @@
 import emitter from 'component-emitter';
-import actions from './store/actions';
-import store from './store';
+import { element as el } from 'deku';
 
 const extensions = [];
 
@@ -36,49 +35,52 @@ export default function control(options, ...rest) {
 
   }
 
-  const id = actions.createControl({ name: options.name, value: options.value });
+  let { name, value } = options;
 
+  // Construct the control with its properties.
   const control = Object.create(emitter.prototype, {
 
-    id: {
-      value: id,
-      writable: false,
-      enumerable: false
-    },
-
     name: {
-      get: () => actions.get(id).name,
-      set: () => { throw new Error() },
+      value: name,
+      writable: false,
       enumerable: true
     },
 
     value: {
-      get: () => actions.get(id).value,
-      set: () => { throw new Error() },
+      get: () => value,
+      set: () => { throw new TypeError('Use control#update to modify the value of a control') },
       enumerable: true
     }
 
   });
 
+  const view = extensions.find(ext => ext.fit(value));
+  if (view === undefined) throw new Error(`Unable to find a suitable control for ${ value }`);
+
+  /**
+   * Modify the value of the control directly.
+   */
   control.update = function(next) {
 
-    actions.updateControl(id, { value: next });
+    // TODO nested equivalency on a value like { x, y, z }.
+    if (value !== next) {
 
-  };
-
-  // Track the previous value so we can emit meaningful events.
-  let previous = options.value;
-
-  store.subscribe(function() {
-
-    if (control.value !== previous) {
-
-      previous = control.value;
-      control.emit('change', control.value);
+      value = next;
+      control.emit('change', value);
+      control.emit('render');
 
     }
 
-  });
+  };
+
+  /**
+   * Used by Deku to render the view.
+   */
+  control.render = function() {
+
+    return view.render(control, el);
+
+  }
 
   return control;
 
