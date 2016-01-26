@@ -5,10 +5,33 @@
   <meta charset='utf-8'>
   <title>tweeq - basic usage</title>
 
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #webgl {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #controls {
+      position: absolute;
+      top: 0;
+      left: 20%;
+    }
+
+  </style>
+
 </head>
 <body>
 
-  <div id='mount' style='position: absolute; top: 0; left: 20%;'></div>
+  <div id='webgl'></div>
+  <div id='controls'></div>
+
   <script src='index.js'></script>
 
 </body>
