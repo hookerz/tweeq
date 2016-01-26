@@ -1,6 +1,7 @@
 import { createApp, element as el } from 'deku';
 import debounce from 'lodash.debounce';
 import emitter from 'component-emitter';
+import control from './control';
 import views from './views';
 
 export default function container(name = 'default') {
@@ -21,20 +22,24 @@ export default function container(name = 'default') {
   /**
    * Add children to the container.
    */
-  container.add = function(control) {
+  container.add = function(child) {
 
-    children = children.concat(control);
-    control.on('render', echo);
+    if (typeof child === 'string') child = control(...arguments);
+
+    children = children.concat(child);
+    child.on('render', echo);
+
+    return child;
 
   };
 
   /**
    * Remove children from the container.
    */
-  container.remove = function(control) {
+  container.remove = function(child) {
 
-    children = children.filter(child => child === control);
-    control.off('render', echo);
+    children = children.filter(item => item === child);
+    child.off('render', echo);
 
   };
 
@@ -42,8 +47,6 @@ export default function container(name = 'default') {
    * Render the container and all of its children as a DOM tree, and append it to the provided element.
    */
   container.mount = function(target) {
-
-    console.log('mounting');
 
     let renderer = createApp(target);
 
