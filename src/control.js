@@ -23,23 +23,13 @@ export function extend(view) {
  * @param value - The value of the control.
  *
  */
-export default function control(options, ...rest) {
+export default function control(name, value, options) {
 
-  // Normalize the arguments.
-  if (typeof options === 'string') {
-
-    let name = options;
-    let value = rest[0];
-
-    options = { name, value };
-
-  }
-
-  let { name, value } = options;
+  if (options === undefined) options = {};
 
   // Before we do anything, look for a view extension that can render this
   // value. Reject it if we can't find one.
-  let view = extensions.find(ext => ext.fit(value));
+  let view = extensions.find(ext => ext.fit(value, options));
   if (view === undefined) throw new Error(`Unable to find a suitable control for ${ value }`);
 
   // Construct the control with its properties.
@@ -74,6 +64,15 @@ export default function control(options, ...rest) {
     }
 
   };
+
+  /**
+   * A simple wrapper for attaching a change event listener.
+   */
+  control.changed = function() {
+
+    control.on('change', ...arguments);
+
+  }
 
   /**
    * Used by Deku to render the control.

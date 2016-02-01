@@ -10,7 +10,7 @@ camera.position.set(0, 0, 5);
 const renderer = new three.WebGLRenderer({ antialias: true });
 renderer.setClearColor(0x1a1a1a);
 
-const options = { spin: 1.0, wireframes: false };
+let spinrate = 1.0;
 
 const cubefactory = function() {
 
@@ -26,11 +26,9 @@ scene.add(cube);
 
 const render = function(time) {
 
-  cube.material.wireframe = options.wireframes;
-
-  cube.rotation.x += 0.005 * options.spin;
-  cube.rotation.y += 0.005 * options.spin;
-  cube.rotation.z += 0.010 * options.spin;
+  cube.rotation.x += 0.005 * spinrate;
+  cube.rotation.y += 0.005 * spinrate;
+  cube.rotation.z += 0.010 * spinrate;
 
   renderer.render(scene, camera);
 
@@ -57,6 +55,20 @@ resize();
 // Construct the render loop.
 const engine = loop(render);
 
+export const controls = tweeq.container();
+
+controls
+  .add('spin', spinrate, { min: 0, max: 2 })
+  .changed(val => spinrate = val);
+
+controls
+  .add('position', cube.position)
+  .changed(val => cube.position.set(val));
+
+controls
+  .add('wireframes', cube.material.wireframe)
+  .changed(val => cube.material.wireframes = val);
+
 export default {
 
   attach: el => el.appendChild(renderer.domElement),
@@ -64,13 +76,3 @@ export default {
   stop:   engine.stop.bind(engine)
 
 }
-
-const controls = tweeq.container();
-
-controls.add('spin', options.spin)
-  .on('change', value => options.spin = value);
-
-controls.add('wireframes', options.wireframes)
-  .on('change', value => options.wireframes = value);
-
-export { controls };

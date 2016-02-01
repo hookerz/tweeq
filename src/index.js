@@ -9,10 +9,12 @@ import styles from './styles';
 insertCSS(styles, { prepend: true });
 
 // Register the default views.
-extend(extensions.button);
-extend(extensions.boolean);
-extend(extensions.string);
-extend(extensions.number);
+for (let key in extensions) {
+
+  console.log(`registering ${ key } extension`)
+  extend(extensions[key]);
+
+}
 
 // Babel compiles `export default` to `exports.default` which means that any
 // CommonJS module would have to do
