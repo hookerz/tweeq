@@ -41,6 +41,12 @@ export default function control(name, value, options) {
       enumerable: true
     },
 
+    options: {
+      value: Object.freeze(options),
+      writable: false,
+      enumerable: true
+    },
+
     value: {
       get: () => value,
       set: () => { throw new TypeError('Use control#update to modify the value of a control') },
