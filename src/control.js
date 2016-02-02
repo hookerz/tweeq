@@ -49,6 +49,10 @@ export default function control(name, value, options) {
 
   });
 
+  // Keep a reference to the rendered view. This will get wiped out when the
+  // value is udpated.
+  let rendered = null;
+
   /**
    * Modify the value of the control directly.
    */
@@ -58,7 +62,14 @@ export default function control(name, value, options) {
     if (value !== next) {
 
       value = next;
+
+      // Wipe out the cached view so it can be rendered with the updated value.
+      rendered = null;
+
+      // Notify the user of the change.
       control.emit('change', value);
+
+      // Notify the parent container that its tree needs to be rendered.
       control.emit('render');
 
     }
@@ -79,8 +90,8 @@ export default function control(name, value, options) {
    */
   control.render = function() {
 
-    // Render the view using the custom Tweeq extension signature.
-    return view.render(control, el);
+    if (!rendered) rendered = view.render(control, el);
+    return rendered;
 
   }
 
