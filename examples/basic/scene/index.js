@@ -10,19 +10,14 @@ camera.position.set(0, 0, 5);
 const renderer = new three.WebGLRenderer({ antialias: true });
 renderer.setClearColor(0x1a1a1a);
 
-let spinrate = 1.0;
+let geo = new three.BoxGeometry(1, 1, 1);
+let mat = new three.MeshBasicMaterial({ color: 0xff0050 })
 
-const cubefactory = function() {
-
-  let geo = new three.BoxGeometry(1, 1, 1);
-  let mat = new three.MeshBasicMaterial({ color: 0xff0050 })
-
-  return new three.Mesh(geo, mat);
-
-}
-
-const cube = cubefactory();
+const cube = new three.Mesh(geo, mat);
 scene.add(cube);
+
+// Multiplies the cube motion.
+let spinrate = 1.0;
 
 const render = function(time) {
 
@@ -67,7 +62,7 @@ controls
 
 controls
   .add('wireframes', cube.material.wireframe)
-  .changed(val => cube.material.wireframes = val);
+  .changed(val => cube.material.wireframe = val);
 
 export default {
 
