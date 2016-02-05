@@ -1,12 +1,14 @@
 import { element as el } from 'deku';
 
-const icon = el('i', { class: 'icon-closed' });
-
 function render({ name, children, toggle }) {
 
-  let opener = el('div', { class: 'tweeq-row', onClick: toggle }, name, icon);
+  let label  = el('label', null, name);
+  let icon   = el('i', { class: 'icon-closed' });
+  let opener = el('div', { onClick: toggle }, label, icon);
 
-  return el('div', { class: 'tweeq-group closed' }, opener);
+  let row = el('div', { class: 'tweeq-row' }, opener);
+
+  return el('div', { class: 'tweeq-group closed' }, row);
 
 }
 

@@ -10,9 +10,13 @@ function render({ name, children, toggle }) {
   // Wrap each view in a row node, so we can get consistent layout.
   let rows = views.map(view => el('div', { class: 'tweeq-row' }, view));
 
-  let closer = el('div', { class: 'tweeq-row', onClick: toggle }, name, icon);
+  let label  = el('label', null, name);
+  let icon   = el('i', { class: 'icon-opened' });
+  let closer = el('div', { onClick: toggle }, label, icon);
 
-  return el('div', { class: 'tweeq-group opened' }, closer, rows);
+  rows.unshift(el('div', { class: 'tweeq-row' }, closer));
+
+  return el('div', { class: 'tweeq-group opened' }, rows);
 
 }
 
