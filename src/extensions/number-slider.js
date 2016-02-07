@@ -15,6 +15,12 @@ function render(control, el) {
 
   let { name, value, options } = control;
 
+  // This is reused by both the click and the drag interaction to map the mouse
+  // position to a control value. It uses the absolute position of both the
+  // slider element and the mouse. We don't use event.offsetX or anything like
+  // that because it would limit the drag interaction to the bounds of the
+  // slider. By using absolute positions, the user can keep dragging the control
+  // anywhere on the page. It's just easier to use that way.
   let update = function(target) {
 
     let bounds = target.getBoundingClientRect();
@@ -27,11 +33,18 @@ function render(control, el) {
 
   }
 
-  let onClick = event => update(event.target.parentElement);
+  // This is the simpler event handler because it doesn't need to maintain any
+  // references across renders. Just update the control based on the position
+  // of the mouse in the slider.
+  let onClick = event => update(event.currentTarget);
 
+  // This is attached to the slider element and starts the dragging interaction.
+  // It creates two additional event listeners, for mouse movement and mouse
+  // button up. They are scoped to the closure because we don't want to keep
+  // any persistant state in the view.
   let onMouseDown = event => {
 
-    let target = event.target.parentElement;
+    let target = event.currentTarget;
 
     let onMouseMove = event => update(target);
     vent.on(window, 'mousemove', onMouseMove);
