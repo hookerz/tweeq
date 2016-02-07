@@ -9,6 +9,7 @@
     "component-emitter": "^1.2.0",
     "deku": "2.0.0-rc15",
     "insert-css": "^0.2.0",
+    "lodash.clamp": "^4.0.1",
     "lodash.debounce": "^4.0.0",
     "redux": "^3.0.5",
     "virtual-element": "^1.2.0"

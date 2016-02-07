@@ -1,3 +1,6 @@
+import clamp from 'lodash.clamp';
+import vent from '../events';
+
 function fit(value, options) {
 
   return Number.isFinite(value)
@@ -8,52 +11,33 @@ function fit(value, options) {
 
 }
 
-// A place to maintain the dragging state of the view, between renders.
-const dragging = new WeakMap();
-
 function render(control, el) {
 
   let { name, value, options } = control;
 
-  // The event listener that actually updates the control value. It finds the
-  // position of the mouse within the slider as a percentage of the total width
-  // and then applies it to the range of the value.
-  let onClick = event => {
+  let update = function(target) {
 
-    let relative = event.offsetX / event.target.parentElement.clientWidth;
-    let absolute = options.min + (options.max - options.min) * relative;
+    let bounds = target.getBoundingClientRect();
+    let offset = clamp(event.pageX, bounds.left, bounds.right) - bounds.left;
+
+    let percent = offset / bounds.width;
+    let absolute = options.min + (options.max - options.min) * percent;
 
     control.update(absolute);
 
   }
 
-  // A set of event listeners to make the slider draggable. We store the
-  // draggable state of the view in the WeakMap so that it doesn't lose
-  // scope between renders. To update the control, we just proxy the onClick
-  // event listener.
+  let onClick = event => update(event.target.parentElement);
+
   let onMouseDown = event => {
 
-    dragging.set(control, true);
+    let target = event.target.parentElement;
 
-    window.addEventListener('mouseup', onMouseUp);
-    window.addEventListener('mousemove', onMouseMove);
+    let onMouseMove = event => update(target);
+    vent.on(window, 'mousemove', onMouseMove);
 
-  }
-
-  let onMouseUp = event => {
-
-    dragging.set(control, false);
-
-    window.removeEventListener('mouseup', onMouseUp);
-    window.removeEventListener('mousemove', onMouseMove);
-
-  }
-
-  let onMouseMove = event => {
-
-    console.log(event);
-
-    if (dragging.get(control)) onClick(event);
+    let onMouseUp = event => vent.off(window, 'mousemove', onMouseMove);
+    vent.once(window, 'mouseup', onMouseUp);
 
   }
 
