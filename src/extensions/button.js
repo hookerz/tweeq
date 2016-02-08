@@ -12,7 +12,7 @@ function render(control, el) {
 
   let label = el('label', null, name);
 
-  return el('div', { onClick }, label);
+  return el('div', { class: 'tweeq-control', onClick }, label);
 
 }
 

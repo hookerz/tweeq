@@ -22,7 +22,7 @@ function render(control, el) {
 
   let svg = el('svg', { x: 0, y: 0, width: 40, height: 40 }, xaxis, yaxis, zaxis);
 
-  return el('div', null, label, svg);
+  return el('div', { class: 'tweeq-control' }, label, svg);
 
 }
 

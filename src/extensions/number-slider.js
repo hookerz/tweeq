@@ -60,9 +60,9 @@ function render(control, el) {
   let background = el('div', { style: 'position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: black;' });
   let foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - (100 * ((value / options.max) - options.min)) }%; background: #4C6767;` });
 
-  let slider = el('div', { style: 'flex: 1; position: relative', onClick, onMouseDown }, background, foreground, valueLabel);
+  let slider = el('div', { class: 'clickable', style: 'flex: 1; position: relative', onClick, onMouseDown }, background, foreground, valueLabel);
 
-  return el('div', null, controlLabel, slider);
+  return el('div', { class: 'tweeq-control' }, controlLabel, slider);
 
 }
 

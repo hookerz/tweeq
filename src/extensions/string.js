@@ -13,7 +13,7 @@ function render(control, el) {
   let label = el('label', null, name);
   let input = el('input', { type: 'text', value, onChange });
 
-  return el('div', null, label, input);
+  return el('div', { class: 'tweeq-control' }, label, input);
 
 }
 

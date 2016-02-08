@@ -19,6 +19,13 @@
     margin 0
     padding 0
 
+    user-select none
+
+.clickable
+.clickable *
+
+  cursor pointer
+
 .tweeq-group
 
   size 100% 100%
@@ -28,22 +35,21 @@
   position relative
   border-bottom 1px solid rgb(44,44,50)
 
-  &, & *
-
-    cursor pointer
-    user-select none
-
-  > *
+  > .tweeq-control
 
     padding 8px
     display flex
 
-  > i
+  i
 
     padding 0 4 0 0
     display inline-block
 
-  > .tweeq-group
+  input
+
+    cursor pointer
+
+  .tweeq-group
 
     display initial
 
