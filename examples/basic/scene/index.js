@@ -59,7 +59,7 @@ controls
   .changed(val => cube.material.color.setHex(val));
 
 controls
-  .add('spin', spinrate, { min: 0, max: 2 })
+  .add('spin', spinrate, { min: -2, max: 2 })
   .changed(val => spinrate = val);
 
 controls

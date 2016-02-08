@@ -57,8 +57,10 @@ function render(control, el) {
   let controlLabel = el('label', null, name);
   let valueLabel = el('div', { style: 'position: absolute; left: 0; right: 0; text-align: center;' }, value.toPrecision(2));
 
+  let foregroundWidth = 100 * (value - options.min) / (options.max - options.min);
+
   let background = el('div', { style: 'position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: black;' });
-  let foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - (100 * ((value / options.max) - options.min)) }%; background: #4C6767;` });
+  let foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - foregroundWidth }%; background: #4C6767;` });
 
   let slider = el('div', { class: 'clickable', style: 'flex: 1; position: relative', onClick, onMouseDown }, background, foreground, valueLabel);
 
