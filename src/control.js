@@ -12,7 +12,7 @@ const extensions = [];
  */
 export function extend(view) {
 
-  extensions.push(view);
+  extensions.unshift(view);
 
 }
 

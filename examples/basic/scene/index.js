@@ -50,7 +50,13 @@ resize();
 // Construct the render loop.
 const engine = loop(render);
 
+window.cube = cube;
+
 export const controls = tweeq.container();
+
+controls
+  .add('color', { pink: 0xff0050, red: 0xff0000, green: 0x00ff00, blue: 0x0000ff })
+  .changed(val => cube.material.color.setHex(val));
 
 controls
   .add('spin', spinrate, { min: 0, max: 2 })
