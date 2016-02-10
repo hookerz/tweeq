@@ -1,19 +1,19 @@
 import clamp from 'lodash.clamp';
 import vent from '../events';
 
-function fit(value, options) {
+function fit(value, meta) {
 
   return Number.isFinite(value)
-    && options.hasOwnProperty('min')
-    && options.hasOwnProperty('max')
-    && Number.isFinite(options.min)
-    && Number.isFinite(options.max);
+    && meta.hasOwnProperty('min')
+    && meta.hasOwnProperty('max')
+    && Number.isFinite(meta.min)
+    && Number.isFinite(meta.max);
 
 }
 
 function render(control, el) {
 
-  let { name, value, options } = control;
+  let { name, value, meta: { min, max } } = control;
 
   // This is reused by both the click and the drag interaction to map the mouse
   // position to a control value. It uses the absolute position of both the
@@ -27,7 +27,7 @@ function render(control, el) {
     let offset = clamp(event.pageX, bounds.left, bounds.right) - bounds.left;
 
     let percent = offset / bounds.width;
-    let absolute = options.min + (options.max - options.min) * percent;
+    let absolute = min + (max - min) * percent;
 
     control.update(absolute);
 
@@ -37,6 +37,7 @@ function render(control, el) {
   // references across renders. Just update the control based on the position
   // of the mouse in the slider.
   let onClick = event => update(event.currentTarget);
+
 
   // This is attached to the slider element and starts the dragging interaction.
   // It creates two additional event listeners, for mouse movement and mouse
@@ -57,7 +58,7 @@ function render(control, el) {
   let controlLabel = el('label', null, name);
   let valueLabel = el('div', { style: 'position: absolute; left: 0; right: 0; text-align: center;' }, value.toPrecision(2));
 
-  let foregroundWidth = 100 * (value - options.min) / (options.max - options.min);
+  let foregroundWidth = 100 * (value - min) / (max - min);
 
   let background = el('div', { style: 'position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: black;' });
   let foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - foregroundWidth }%; background: #4C6767;` });
