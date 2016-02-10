@@ -16,14 +16,13 @@ let mat = new three.MeshBasicMaterial({ color: 0xff0050 })
 const cube = new three.Mesh(geo, mat);
 scene.add(cube);
 
-// Multiplies the cube motion.
-let spinrate = 1.0;
+let tweakable = { spinrate: 1.0 };
 
 const render = function(time) {
 
-  cube.rotation.x += 0.005 * spinrate;
-  cube.rotation.y += 0.005 * spinrate;
-  cube.rotation.z += 0.010 * spinrate;
+  cube.rotation.x += 0.005 * tweakable.spinrate;
+  cube.rotation.y += 0.005 * tweakable.spinrate;
+  cube.rotation.z += 0.010 * tweakable.spinrate;
 
   renderer.render(scene, camera);
 
@@ -54,21 +53,22 @@ window.cube = cube;
 
 export const controls = tweeq.container();
 
-controls
-  .add('color', { pink: 0xff0050, red: 0xff0000, green: 0x00ff00, blue: 0x0000ff })
-  .changed(val => cube.material.color.setHex(val));
+controls.add(1.0, 'scale').changed(n => cube.scale.set(n, n, n))
 
-controls
-  .add('spin', spinrate, { min: -2, max: 2 })
-  .changed(val => spinrate = val);
+controls.add(tweakable, 'spinrate', { min: -2, max: 2 });
 
-controls
-  .add('position', cube.position)
-  .changed(val => cube.position.set(val));
+controls.add(cube.material, 'wireframe');
 
-controls
-  .add('wireframes', cube.material.wireframe)
-  .changed(val => cube.material.wireframe = val);
+controls.add(0xff0000, 'color',
+  {
+    options: {
+      pink:  0xff0050,
+      red:   0xff0000,
+      green: 0x00ff00,
+      blue:  0x0000ff
+    }
+  })
+  .changed(n => cube.material.color.set(n));
 
 export default {
 
