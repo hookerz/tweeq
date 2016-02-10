@@ -1,27 +1,27 @@
-function fit(value) {
+function fit(value, meta) {
 
-  return typeof value === 'object';
+  return meta.hasOwnProperty('options');
 
 }
 
 function render(control, el) {
 
-  let { name, value } = control;
+  let { name, value, meta: { options } } = control;
 
   let onChange = event => {
 
-    let selection = event.target.value;
-    control.emit('change', value[selection]);
+    let selection = options[event.target.value];
+    control.update(selection);
 
   }
 
   // Map the keys of the value object to <option> elements.
-  let keys = Object.keys(value);
-  let options = keys.map(key => el('option', null, key));
+  let keys = Object.keys(options);
+  let views = keys.map(key => el('option', { selected: value === options[key] }, key));
 
   // Construct the control.
   let label = el('label', null, name);
-  let select = el('select', { onChange }, options);
+  let select = el('select', { onChange }, views);
 
   return el('div', { class: 'tweeq-control' }, label, select);
 
