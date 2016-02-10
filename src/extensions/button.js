@@ -1,6 +1,6 @@
 function fit(value) {
 
-  return value === undefined;
+  return typeof value === 'functon';
 
 }
 
@@ -8,11 +8,9 @@ function render(control, el) {
 
   let { name, value } = control;
 
-  let onClick = event => control.emit('change');
-
   let label = el('label', null, name);
 
-  return el('div', { class: 'tweeq-control', onClick }, label);
+  return el('div', { class: 'tweeq-control', onClick: value }, label);
 
 }
 
