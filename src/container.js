@@ -27,6 +27,7 @@ export default function container(name = 'default') {
     if (typeof child === 'string') child = control(...arguments);
 
     children = children.concat(child);
+    child.on('change', echo);
     child.on('render', echo);
 
     return child;
