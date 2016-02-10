@@ -24,7 +24,7 @@ export default function container(name = 'default') {
    */
   container.add = function(child) {
 
-    if (typeof child === 'string') child = control(...arguments);
+    if (arguments.length > 1) child = control(...arguments);
 
     children = children.concat(child);
     child.on('change', echo);

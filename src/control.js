@@ -23,13 +23,14 @@ export function extend(view) {
  * @param value - The value of the control.
  *
  */
-export default function control(name, value, options) {
+export default function(target, name, meta = {}) {
 
-  if (options === undefined) options = {};
+  // If the name exists on the target object, the user wants us to use that
+  // property as the control value. Otherwise they've passed the literal value.
+  let value = target.hasOwnProperty(name) ? target[name] : target;
 
-  // Before we do anything, look for a view extension that can render this
-  // value. Reject it if we can't find one.
-  let view = extensions.find(ext => ext.fit(value, options));
+  // Start by looking for a view extension that can render the value.
+  let view = extensions.find(ext => ext.fit(value, meta));
   if (view === undefined) throw new Error(`Unable to find a suitable control for ${ value }`);
 
   // Construct the control with its properties.
@@ -41,8 +42,8 @@ export default function control(name, value, options) {
       enumerable: true
     },
 
-    options: {
-      value: Object.freeze(options),
+    meta: {
+      value: Object.freeze(meta),
       writable: false,
       enumerable: true
     },
@@ -72,10 +73,10 @@ export default function control(name, value, options) {
       // Wipe out the cached view so it can be rendered with the updated value.
       rendered = null;
 
-      // Notify the user of the change.
-      control.emit('change', value);
+      // Automatically update the property on the target, if it exists.
+      if (target.hasOwnProperty(name)) target[name] = value;
 
-      // Notify the parent container that its tree needs to be rendered.
+      control.emit('change', value);
       control.emit('render');
 
     }
