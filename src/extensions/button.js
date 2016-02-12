@@ -1,6 +1,6 @@
 function fit(value) {
 
-  return typeof value === 'functon';
+  return typeof value === 'function';
 
 }
 
