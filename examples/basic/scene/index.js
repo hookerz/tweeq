@@ -2,6 +2,21 @@ import tweeq from '../../../';
 import three from 'three';
 import loop from 'raf-loop';
 
+let tweakable = {
+
+  spinrate: 1.0,
+
+  colors: {
+    pink:  0xff0050,
+    red:   0xff0000,
+    green: 0x00ff00,
+    blue:  0x0000ff
+  }
+
+};
+
+// Setup
+
 const scene = new three.Scene();
 
 const camera = new three.PerspectiveCamera(75, 1, 0.1, 1000);
@@ -11,12 +26,10 @@ const renderer = new three.WebGLRenderer({ antialias: true });
 renderer.setClearColor(0xdddddd);
 
 let geo = new three.BoxGeometry(1, 1, 1);
-let mat = new three.MeshBasicMaterial({ color: 0xff0050 })
+let mat = new three.MeshBasicMaterial({ color: tweakable.colors.pink })
 
 const cube = new three.Mesh(geo, mat);
 scene.add(cube);
-
-let tweakable = { spinrate: 1.0 };
 
 const render = function(time) {
 
@@ -49,26 +62,22 @@ resize();
 // Construct the render loop.
 const engine = loop(render);
 
-window.cube = cube;
-
 export const controls = tweeq.container();
 
-controls.add(1.0, 'scale').changed(n => cube.scale.set(n, n, n))
-
-controls.add(tweakable, 'spinrate', { min: -2, max: 2 });
-
+// Add a property control.
 controls.add(cube.material, 'wireframe');
 
-controls.add(0xff0000, 'color',
-  {
-    options: {
-      pink:  0xff0050,
-      red:   0xff0000,
-      green: 0x00ff00,
-      blue:  0x0000ff
-    }
-  })
-  .changed(n => cube.material.color.set(n));
+// Add a property control with some options.
+controls.add(tweakable, 'spinrate', { min: -2, max: 2 });
+
+// Add a literal control with a manual event listener.
+controls.add(1.0, 'scale').changed(n => cube.scale.set(n, n, n))
+
+// Add a literal control with some options.
+controls.add(tweakable.colors.pink, 'color', { options: tweakable.colors })
+        .changed(n => cube.material.color.set(n));
+
+
 
 export default {
 
