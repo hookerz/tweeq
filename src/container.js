@@ -45,7 +45,8 @@ export default function container(name = 'default') {
   };
 
   /**
-   * Render the container and all of its children as a DOM tree, and append it to the provided element.
+   * Render the container and all of its children as a VDOM tree, and append it
+   * to the provided element.
    */
   container.mount = function(target) {
 
