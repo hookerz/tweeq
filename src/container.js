@@ -80,12 +80,13 @@ export default function container(name = 'default') {
 
   };
 
-  container.render = function() {
+  container.render = function(model) {
 
     let view = open ? views.groupOpened : views.groupClosed;
+    let depth = (model.path.split('.').length - 1) / 2;
 
     // Render the view with some named parameters.
-    return view.render({ name, children, toggle })
+    return view.render({ name, children, open, toggle, depth });
 
   }
 
