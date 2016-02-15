@@ -8,7 +8,7 @@ const camera = new three.PerspectiveCamera(75, 1, 0.1, 1000);
 camera.position.set(0, 0, 5);
 
 const renderer = new three.WebGLRenderer({ antialias: true });
-renderer.setClearColor(0x1a1a1a);
+renderer.setClearColor(0xdddddd);
 
 let geo = new three.BoxGeometry(1, 1, 1);
 let mat = new three.MeshBasicMaterial({ color: 0xff0050 })

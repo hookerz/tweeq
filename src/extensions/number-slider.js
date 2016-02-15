@@ -55,17 +55,17 @@ function render(control, el) {
 
   }
 
-  let controlLabel = el('label', null, name);
-  let valueLabel = el('div', { style: 'position: absolute; left: 0; right: 0; text-align: center;' }, value.toPrecision(2));
+  let label = el('label', null, name);
 
-  let foregroundWidth = 100 * (value - min) / (max - min);
+  // Compute the value as a percentage of the total range.
+  let percentage = 100 * (value - min) / (max - min);
 
-  let background = el('div', { style: 'position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: black;' });
-  let foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - foregroundWidth }%; background: #4C6767;` });
+  let background = el('div', { style: 'position: absolute; top: 0; left: 0; bottom: 0; right: 0;' });
+  let foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - percentage }%;` });
 
-  let slider = el('div', { class: 'clickable', style: 'flex: 1; position: relative', onClick, onMouseDown }, background, foreground, valueLabel);
+  let slider = el('div', { class: 'tweeq-slider', onClick, onMouseDown }, background, foreground);
 
-  return el('div', { class: 'tweeq-control' }, controlLabel, slider);
+  return el('div', { class: 'tweeq-control' }, label, slider);
 
 }
 
