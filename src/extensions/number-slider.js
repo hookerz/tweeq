@@ -1,4 +1,4 @@
-import clamp from 'lodash.clamp';
+import { clamp } from '../util';
 import vent from '../events';
 
 function fit(value, meta) {
@@ -24,7 +24,7 @@ function render(control, el) {
   let update = function(target) {
 
     let bounds = target.getBoundingClientRect();
-    let offset = clamp(event.pageX, bounds.left, bounds.right) - bounds.left;
+    let offset = clamp(bounds.left, bounds.right, event.pageX) - bounds.left;
 
     let percent = offset / bounds.width;
     let absolute = min + (max - min) * percent;
