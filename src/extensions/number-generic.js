@@ -10,7 +10,12 @@ function render(control, el) {
 
   let { name, value, meta } = control;
 
-  let onChange = event => control.update(event.target.value);
+  let onChange = event => {
+
+    let n = Number.parseFloat(event.target.value);
+    control.update(Number.isNaN(n) ? value : n);
+
+  }
 
   let update = target => {
 
