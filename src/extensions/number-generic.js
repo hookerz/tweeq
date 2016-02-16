@@ -20,7 +20,7 @@ function render(control, el) {
   let update = target => {
 
     let bounds = target.getBoundingClientRect();
-    let offset = event.pageY - (bounds.bottom + bounds.height * 0.5);
+    let offset = event.pageY - (bounds.top + bounds.height * 0.5);
 
     // If the user didn't provide a step infer it from the initial value.
     let step = meta.step || (value * 0.01);
