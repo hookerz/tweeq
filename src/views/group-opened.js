@@ -33,20 +33,21 @@ const row = children => el('div', { class: 'tweeq-row' }, children);
 function render({ name, children, toggle, depth }) {
 
   // Render each child to a VDOM node.
-  let views = children.map(el);
+  let views = children.map(child => el(child, { style: `padding-left: ${ depth * 5 }px` }));
 
   // Construct the closer control.
   let label  = el('label', null, name);
   let closer = el('div', { class: 'tweeq-control clickable', onClick: toggle }, label, icon);
 
+  // Construct the list of depth markers and insert them in front of each view.
+  let markers = flames(depth - 1);
+  views = views.map(view => [ markers, view ]);
+
   // Add the closer to the views we're going to render.
   views.unshift(closer);
 
-  // Construct the list of depth markers.
-  let markers = flames(depth - 1);
-
   // Wrap each view in a row node, so we can get consistent layout.
-  let rows = views.map(view => row(markers.concat(view)));
+  let rows = views.map(row);
 
   return el('div', { class: 'tweeq-group opened' }, rows);
 
