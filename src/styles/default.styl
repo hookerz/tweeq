@@ -9,23 +9,18 @@
 // Import the icon font.
 @import './icons'
 
+$font = Roboto, sans-serif
 
 $color-background = #202020
 $color-stroke     = #303030
-
 $color-highlight  = #0088ff
 $color-text       = #ffffff
-
-$font = Roboto, monospace
 
 .tweeq-root
 
   width 250px
 
   background $color-background
-
-  border-left 1px $color-stroke solid
-  border-right 1px $color-stroke solid
 
   &, & *
 
@@ -72,7 +67,7 @@ $font = Roboto, monospace
 
   i
 
-    padding 0 4 0 0
+    padding-top 4px
     display inline-flex
 
   input[type='text']
