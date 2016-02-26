@@ -1,7 +1,7 @@
 {
   "name": "tweeq",
   "version": "0.0.1",
-  "description": "",
+  "description": "a composable user interface for tweaking values",
   "main": "lib/index.js",
   "author": "Chris Parker <parker@byhook.com>",
   "repository": "hookerz/tweeq",
@@ -10,8 +10,7 @@
     "component-emitter": "^1.2.0",
     "deku": "2.0.0-rc16",
     "insert-css": "^0.2.0",
-    "lodash.debounce": "^4.0.1",
-    "yargs": "^4.1.0"
+    "lodash.debounce": "^4.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.5.0",
@@ -22,6 +21,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-stylus": "^2.3.0",
     "gulp-wrap": "^0.11.0",
-    "nib": "^1.1.0"
+    "nib": "^1.1.0",
+    "yargs": "^4.1.0"
   }
 }
