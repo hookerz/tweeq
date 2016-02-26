@@ -25,6 +25,10 @@ function render(control, el) {
     // If the user didn't provide a step infer it from the initial value.
     let step = meta.step || (value * 0.01);
 
+    // Flip the step if the value is negative, so dragging up still makes
+    // the value less postive, and vice versa. This is more intuitive.
+    if (value < 0) step = -step;
+
     control.update(value + offset * step);
 
   }
