@@ -6,6 +6,9 @@
   "author": "atonparker",
   "repository": "hookerz/tweeq",
   "license": "MIT",
+  "scripts": {
+    "prepublish": "gulp build"
+  },
   "dependencies": {
     "component-emitter": "^1.2.0",
     "deku": "2.0.0-rc16",
