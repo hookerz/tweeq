@@ -1,5 +1,7 @@
 # Tweeq
 
+[![version](https://img.shields.io/npm/v/tweeq.svg)](https://www.npmjs.com/package/tweeq)
+
 ## Example
 
 ```javascript

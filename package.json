@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "a composable user interface for tweaking values",
   "main": "lib/index.js",
-  "author": "Chris Parker <parker@byhook.com>",
+  "author": "atonparker",
   "repository": "hookerz/tweeq",
   "license": "MIT",
   "dependencies": {
