@@ -13,7 +13,7 @@ function render(control, el) {
   let label = el('label', null, name);
   let input = el('input', { type: 'checkbox', checked: value });
 
-  return el('div', { class: 'tweeq-control', onClick }, label, input);
+  return el('div', { class: 'tweeq-control clickable', onClick }, label, input);
 
 }
 

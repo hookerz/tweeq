@@ -63,7 +63,7 @@ function render(control, el) {
   let background = el('div', { style: 'position: absolute; top: 0; left: 0; bottom: 0; right: 0;' });
   let foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - percentage }%;` });
 
-  let slider = el('div', { class: 'tweeq-slider', onClick, onMouseDown }, background, foreground);
+  let slider = el('div', { class: 'tweeq-slider clickable', onClick, onMouseDown }, background, foreground);
 
   return el('div', { class: 'tweeq-control' }, label, slider);
 
