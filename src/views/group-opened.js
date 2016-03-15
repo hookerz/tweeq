@@ -7,6 +7,7 @@ const icon = el('i', { class: 'icon-opened' });
 const flamecolors = [ '#ff0000', '#00ff00', '#0000ff' ];
 
 // Make n flame markers, offset from each other.
+// TODO memoize this
 const flames = (n) => {
 
   let result = [];
