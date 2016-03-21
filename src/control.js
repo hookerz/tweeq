@@ -49,7 +49,7 @@ export default function(target, name, meta = {}) {
 
     value: {
       get: () => value,
-      set: () => { throw new TypeError('Use control#update to modify the value of a control') },
+      set: (next) => control.update(next),
       enumerable: true
     }
 
