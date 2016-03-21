@@ -9,7 +9,7 @@ function fit(value) {
 
 }
 
-function render(control, el) {
+function render(control) {
 
   let { name, value } = control;
 

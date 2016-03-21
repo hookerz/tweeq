@@ -1,10 +1,12 @@
+import { element as el } from 'deku';
+
 function fit(value, meta) {
 
   return meta.hasOwnProperty('options');
 
 }
 
-function render(control, el) {
+function render(control) {
 
   let { name, value, meta: { options } } = control;
 

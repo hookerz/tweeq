@@ -1,10 +1,12 @@
+import { element as el } from 'deku';
+
 function fit(value) {
 
   return value === true || value === false;
 
 }
 
-function render(control, el) {
+function render(control) {
 
   let { name, value } = control;
 

@@ -1,5 +1,4 @@
 import emitter from 'component-emitter';
-import { element as el } from 'deku';
 
 const extensions = [];
 
@@ -95,9 +94,12 @@ export default function(target, name, meta = {}) {
   /**
    * Used by Deku to render the control.
    */
-  control.render = function() {
+  control.render = function(model) {
 
-    if (!rendered) rendered = view.render(control, el);
+    let uniqref = model.context[this] || Symbol();
+    model.context[this] = uniqref;
+
+    if (!rendered) rendered = view.render(control, uniqref);
     return rendered;
 
   }

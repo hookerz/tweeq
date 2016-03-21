@@ -1,3 +1,4 @@
+import { element as el } from 'deku';
 import vent from '../events';
 
 function fit(value) {
@@ -6,7 +7,7 @@ function fit(value) {
 
 }
 
-function render(control, el) {
+function render(control) {
 
   let { name, value, meta } = control;
 

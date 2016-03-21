@@ -1,3 +1,4 @@
+import { element as el } from 'deku';
 import { clamp } from '../util';
 import vent from '../events';
 
@@ -11,7 +12,7 @@ function fit(value, meta) {
 
 }
 
-function render(control, el) {
+function render(control) {
 
   let { name, value, meta: { min, max } } = control;
 
