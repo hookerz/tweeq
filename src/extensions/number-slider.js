@@ -12,9 +12,9 @@ function fit(value, meta) {
 
 }
 
-function render(control) {
+function render({ name, value, meta, update }) {
 
-  let { name, value, meta: { min, max } } = control;
+  let { min, max } = meta;
 
   // This is reused by both the click and the drag interaction to map the mouse
   // position to a control value. It uses the absolute position of both the
@@ -22,7 +22,7 @@ function render(control) {
   // that because it would limit the drag interaction to the bounds of the
   // slider. By using absolute positions, the user can keep dragging the control
   // anywhere on the page. It's just easier to use that way.
-  let update = function(target) {
+  let onDrag = function(event, target) {
 
     let bounds = target.getBoundingClientRect();
     let offset = clamp(bounds.left, bounds.right, event.pageX) - bounds.left;
@@ -30,25 +30,26 @@ function render(control) {
     let percent = offset / bounds.width;
     let absolute = min + (max - min) * percent;
 
-    control.update(absolute);
+    update(absolute);
 
   }
 
   // This is the simpler event handler because it doesn't need to maintain any
   // references across renders. Just update the control based on the position
   // of the mouse in the slider.
-  let onClick = event => update(event.currentTarget);
+  let onClick = (event) => onDrag(event, event.currentTarget);
 
 
   // This is attached to the slider element and starts the dragging interaction.
   // It creates two additional event listeners, for mouse movement and mouse
   // button up. They are scoped to the closure because we don't want to keep
   // any persistant state in the view.
-  let onMouseDown = event => {
+  let onMouseDown = function(event) {
 
+    // Capture the initial event target.
     let target = event.currentTarget;
 
-    let onMouseMove = event => update(target);
+    let onMouseMove = event => onDrag(event, target);
     vent.on(window, 'mousemove', onMouseMove);
 
     let onMouseUp = event => vent.off(window, 'mousemove', onMouseMove);

@@ -6,11 +6,9 @@ function fit(value) {
 
 }
 
-function render(control) {
+function render({ name, value, update }) {
 
-  let { name, value } = control;
-
-  let onChange = event => control.update(event.target.value);
+  let onChange = event => update(event.target.value);
 
   let label = el('label', null, name);
   let input = el('input', { type: 'text', value, onChange });

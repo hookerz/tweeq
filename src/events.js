@@ -12,7 +12,8 @@ export function off(target, type, handler) {
 
 export function once(target, type, handler) {
 
-  let closure = event => {
+  // Make a closure around the event handler that removes itself.
+  const closure = (event) => {
     handler.call(target, event);
     target.removeEventListener(type, closure);
   }

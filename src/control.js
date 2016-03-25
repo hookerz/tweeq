@@ -22,7 +22,7 @@ export function extend(view) {
  * @param value - The value of the control.
  *
  */
-export default function(target, name, meta = {}) {
+export default function Control(target, name, meta = {}) {
 
   // If the name exists on the target object, the user wants us to use that
   // property as the control value. Otherwise they've passed the literal value.
@@ -64,19 +64,21 @@ export default function(target, name, meta = {}) {
    */
   control.update = function(next) {
 
-    // TODO nested equivalency on a value like { x, y, z }.
-    if (value !== next) {
+    if (arguments.length < 1) {
+
+      rendered = null;
+      control.emit('render');
+
+    } else if (value !== next) {
 
       value = next;
-
-      // Wipe out the cached view so it can be rendered with the updated value.
-      rendered = null;
 
       // Automatically update the property on the target, if it exists.
       if (target.hasOwnProperty(name)) target[name] = value;
 
-      control.emit('change', value);
+      rendered = null;
       control.emit('render');
+      control.emit('change', value);
 
     }
 
@@ -92,14 +94,23 @@ export default function(target, name, meta = {}) {
   }
 
   /**
-   * Used by Deku to render the control.
+   * Deku method.
    */
   control.render = function(model) {
 
-    let uniqref = model.context[this] || Symbol();
-    model.context[this] = uniqref;
+    if (!rendered) {
 
-    if (!rendered) rendered = view.render(control, uniqref);
+      let { context } = model;
+
+      if (!context.has(control)) context.set(control, {});
+
+      let state = context.get(control);
+      let update = control.update;
+
+      rendered = view.render({ name, value, meta, update, state });
+
+    }
+
     return rendered;
 
   }

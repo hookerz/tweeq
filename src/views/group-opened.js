@@ -31,7 +31,7 @@ const flames = (n) => {
 // Just wrap a control view in a row div, so we can get consistent styling.
 const row = children => el('div', { class: 'tweeq-row' }, children);
 
-function render({ name, children, toggle, depth }) {
+function render({ name, children, depth, toggle }) {
 
   // Render each child to a VDOM node.
   let views = children.map(child => el(child, { style: `padding-left: ${ depth * 5 }px` }));

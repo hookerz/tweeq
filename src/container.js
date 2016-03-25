@@ -1,23 +1,27 @@
 import { createApp, element as el } from 'deku';
 import debounce from 'lodash.debounce';
-import emitter from 'component-emitter';
-import control from './control';
-import views from './views';
+import emitter  from 'component-emitter';
+import control  from './control';
+import view     from './views/group';
 
-export default function container(name = 'default') {
+export default function Container(name = 'default') {
 
-  let container = Object.create(emitter.prototype);
-
+  // The list of controls in this group.
   let children = [];
 
-  // Echoes render events from the children.
-  let echo = event => container.emit('render');
+  const container = Object.create(emitter.prototype, {
 
-  // Toggles the open-ness of the container and rerenders the container.
-  let toggle = event => { open = !open; container.emit('render'); };
+    name: {
+      value: name,
+      writable: false,
+      enumerable: true
+    }
 
-  // Tracks whether the container view is open or closed.
-  let open = false;
+  });
+
+  // Echoes render events from the children. This isn't anonymous because we
+  // need to remove it from the children when they are removed from the group.
+  const echo = event => container.emit('render');
 
   /**
    * Add children to the container.
@@ -52,23 +56,30 @@ export default function container(name = 'default') {
 
     let renderer = createApp(target);
 
-    let render = function() {
+    // A persistant state map for the groups and controls.
+    let context = new WeakMap();
+
+    // Set the initial state of the group. The top level group is open
+    // by default, unlike the default state of child groups.
+    context.set(container, { open: true });
+
+    let renderTree = function() {
 
       console.log('rendering');
 
       let rendered = el(container);
       let rootnode = el('div', { class: 'tweeq-root' }, rendered);
 
-      renderer(rootnode);
+      renderer(rootnode, context);
 
     };
 
     // Subscribe to render events. Debouncing prevents wasted renders when
     // multiple controls are updated in the same frame.
-    container.on('render', debounce(render, 0));
+    container.on('render', debounce(renderTree, 0));
 
     // Do the initial render.
-    render();
+    renderTree();
 
   };
 
@@ -81,13 +92,19 @@ export default function container(name = 'default') {
 
   };
 
+  /**
+   * Deku method.
+   */
   container.render = function(model) {
 
-    let view = open ? views.groupOpened : views.groupClosed;
-    let depth = (model.path.split('.').length - 1) / 2;
+    let { context, path } = model;
 
-    // Render the view with some named parameters.
-    return view.render({ name, children, open, toggle, depth });
+    if (!context.has(container)) context.set(container, { open: false });
+
+    let state = context.get(container);
+    let depth = (path.split('.').length - 1) / 2;
+
+    return view.render({ name, children, depth, update: echo, state });
 
   }
 

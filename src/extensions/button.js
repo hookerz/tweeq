@@ -6,9 +6,7 @@ function fit(value) {
 
 }
 
-function render(control) {
-
-  let { name, value } = control;
+function render({ name, value }) {
 
   let label = el('label', null, name);
 

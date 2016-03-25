@@ -6,14 +6,14 @@ function fit(value, meta) {
 
 }
 
-function render(control) {
+function render({ name, value, meta, update }) {
 
-  let { name, value, meta: { options } } = control;
+  let { options } = meta;
 
   let onChange = event => {
 
     let selection = options[event.target.value];
-    control.update(selection);
+    update(selection);
 
   }
 

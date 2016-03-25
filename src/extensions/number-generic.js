@@ -7,18 +7,16 @@ function fit(value) {
 
 }
 
-function render(control) {
+function render({ name, value, meta, update }) {
 
-  let { name, value, meta } = control;
-
-  let onChange = event => {
+  let onChange = function(event) {
 
     let n = Number.parseFloat(event.target.value);
-    control.update(Number.isNaN(n) ? value : n);
+    update(Number.isNaN(n) ? value : n);
 
   }
 
-  let update = target => {
+  let onDrag = function(event, target) {
 
     let bounds = target.getBoundingClientRect();
     let offset = event.pageY - (bounds.top + bounds.height * 0.5);
@@ -30,15 +28,16 @@ function render(control) {
     // the value less postive, and vice versa. This is more intuitive.
     if (value < 0) step = -step;
 
-    control.update(value + offset * step);
+    update(value + offset * step);
 
   }
 
-  let onMouseDown = event => {
+  let onMouseDown = function(event) {
 
+    // Capture the initial event target.
     let target = event.currentTarget;
 
-    let onMouseMove = event => update(target);
+    let onMouseMove = event => onDrag(event, target);
     vent.on(window, 'mousemove', onMouseMove);
 
     let onMouseUp = event => vent.off(window, 'mousemove', onMouseMove);

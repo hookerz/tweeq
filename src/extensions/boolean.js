@@ -6,11 +6,9 @@ function fit(value) {
 
 }
 
-function render(control) {
+function render({ name, value, update }) {
 
-  let { name, value } = control;
-
-  let onClick = event => control.update(!value);
+  let onClick = event => update(!value);
 
   let label = el('label', null, name);
   let input = el('input', { type: 'checkbox', checked: value });
