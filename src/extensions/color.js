@@ -71,11 +71,7 @@ function renderHSVControls({ value, update }) {
 
     let rgb = HSVtoRGB(hsv[0], percentX, 1 - percentY);
 
-    console.log(rgb);
-
     let strRGB = renderRGBString.apply(null, rgb);
-
-    console.log(strRGB);
 
     update(strRGB);
 
