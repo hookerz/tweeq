@@ -170,9 +170,9 @@ export function RGBtoHSV(r, g, b) {
 
     switch (max) {
 
-      case r:  h = 60 * (0 + (g - b) / delta); break;
-      case g:  h = 60 * (2 + (b - r) / delta); break;
-      case b:  h = 60 * (4 + (r - g) / delta); break;
+      case r: h = 60 * (0 + (g - b) / delta); break;
+      case g: h = 60 * (2 + (b - r) / delta); break;
+      case b: h = 60 * (4 + (r - g) / delta); break;
 
     }
 
