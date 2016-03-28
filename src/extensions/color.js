@@ -197,12 +197,12 @@ export function HSVtoRGB(h, s, v) {
 
   switch (true) {
 
-    case (  0 <= h && h <  60): r = c; g = x; b = 0; break;
-    case ( 60 <= h && h < 120): r = x; g = c; b = 0; break;
-    case (120 <= h && h < 180): r = 0; g = c; b = x; break;
-    case (180 <= h && h < 240): r = 0; g = x; b = c; break;
-    case (240 <= h && h < 300): r = x; g = 0; b = c; break;
-    case (300 <= h && h < 360): r = c; g = 0; b = x; break;
+    case (h <  60): r = c; g = x; b = 0; break;
+    case (h < 120): r = x; g = c; b = 0; break;
+    case (h < 180): r = 0; g = c; b = x; break;
+    case (h < 240): r = 0; g = x; b = c; break;
+    case (h < 300): r = x; g = 0; b = c; break;
+    case (h < 360): r = c; g = 0; b = x; break;
 
   }
 
