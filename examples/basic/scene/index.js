@@ -78,7 +78,7 @@ controls.add(tweakable.colors.pink, 'color', { options: tweakable.colors })
         .changed(n => cube.material.color.set(n));
 
 
-controls.add('#ff0050', 'color');
+controls.add('#ff0050', 'color').changed(n => cube.material.color.set(n));
 
 export default {
 
