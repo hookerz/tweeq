@@ -1,7 +1,7 @@
 import { element as el } from 'deku';
 
 // Reuse the same icon virtual element between renders.
-const icon = el('i', { class: 'icon-closed' });
+const icon = el('i', { class: 'icon-right-dir' });
 
 function render({ name, children, toggle }) {
 

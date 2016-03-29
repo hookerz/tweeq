@@ -12,6 +12,7 @@
 .tweeq-color-hsv
 
   flex 2 1
+  display flex
 
 .tweeq-color-satval
 .tweeq-color-hue
@@ -20,14 +21,22 @@
   position relative
   display inline-block
 
-.tweeq-color-satval
-
-  width 10em
-
 .tweeq-color-hue
 
   width 2em
 
+  flex none
+  align-self flex-end
+  margin-left auto !important
+
+.tweeq-color-satval
+
+  width 10em
+
+  flex none
+
+// The two square gradients that are combined to create the saturation/value
+// square. They are absolutely positioned because they must overlap.
 .tweeq-color-sat
 .tweeq-color-val
 
@@ -35,10 +44,8 @@
   top 0; bottom 0;
   left 0; right 0;
 
-.tweeq-color-selector-satval
+.tweeq-color-selector-satval > .icon-circle
 
-  width 1em
-  height 1em
-  background black
-
-  position absolute
+  position relative
+  top -0.5em
+  left -0.5em

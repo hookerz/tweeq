@@ -1,7 +1,7 @@
 import { element as el } from 'deku';
 
 // Reuse the same icon virtual element between renders.
-const icon = el('i', { class: 'icon-opened' });
+const icon = el('i', { class: 'icon-down-dir' });
 
 // A list of colors to cycle through when styling the flame markers.
 const flamecolors = [ '#ff0000', '#00ff00', '#0000ff' ];
