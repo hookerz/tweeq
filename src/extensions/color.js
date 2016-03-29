@@ -1,6 +1,5 @@
 import { element as el } from 'deku';
-import { clamp } from '../util';
-import vent from '../events';
+import { clamp, dragInteraction } from '../util';
 
 function fit(value) {
 
@@ -71,6 +70,7 @@ function renderHSVControls(control, state) {
   let rgb = parseHexString(value);
   let hsv = null;
 
+  // Attempt to use the cached HSV values, if they're present and valid.
   if (HSVCache.has(control)) {
 
     let cachedHSV = HSVCache.get(control);
@@ -95,16 +95,10 @@ function renderHSVControls(control, state) {
 
   let selector = renderSatValSelector(hsv[1], hsv[2]);
 
-  let onDrag = function(event, target) {
+  let { onClick, onMouseDown } = dragInteraction((offset, bounds) => {
 
-    console.debug(event.type);
-
-    let bounds = target.getBoundingClientRect();
-    let offsetX = clamp(bounds.left, bounds.right, event.pageX) - bounds.left;
-    let offsetY = clamp(bounds.top, bounds.bottom, event.pageY) - bounds.top;
-
-    let normalizedX = offsetX / bounds.width;
-    let normalizedY = offsetY / bounds.height;
+    let normalizedX = clamp(0, bounds.width, offset.x) / bounds.width;
+    let normalizedY = clamp(0, bounds.height, offset.y) / bounds.width;
 
     let newHSV = [ hsv[0], normalizedX, 1 - normalizedY ];
     let newRGB = HSVtoRGB(newHSV);
@@ -119,28 +113,13 @@ function renderHSVControls(control, state) {
     // is being dragged.
     update();
 
-  }
-
-  let onClick = (event) => onDrag(event, event.currentTarget);
-
-  let onMouseDown = function(event) {
-
-    // Capture the initial event target.
-    let target = event.currentTarget;
-
-    let onMouseMove = event => onDrag(event, target);
-    vent.on(window, 'mousemove', onMouseMove);
-
-    let onMouseUp = event => vent.off(window, 'mousemove', onMouseMove);
-    vent.once(window, 'mouseup', onMouseUp);
-
-  }
+  });
 
   let sgradient = renderSatGradient(hsv[0]);
 
   // Combine the saturation gradient with the value gradient to form the
   // overlapping saturation/value gradient.
-  let svgradient = el('div', { class: 'tweeq-color-satval', onMouseDown }, sgradient, vgradient, selector);
+  let svgradient = el('div', { class: 'tweeq-color-satval', onClick, onMouseDown }, sgradient, vgradient, selector);
 
   // Put the saturation/value gradient and the hue gradient side by side, with all of their selectors.
   return el('div', { class: 'tweeq-color-hsv' }, svgradient, hgradient);

@@ -1,5 +1,5 @@
 import { element as el } from 'deku';
-import vent from '../events';
+import { dragInteraction } from '../util';
 
 function fit(value) {
 
@@ -16,10 +16,9 @@ function render({ name, value, meta, update }) {
 
   }
 
-  let onDrag = function(event, target) {
+  let { onMouseDown } = dragInteraction((offset, bounds) => {
 
-    let bounds = target.getBoundingClientRect();
-    let offset = event.pageY - (bounds.top + bounds.height * 0.5);
+    let n = offset.y - bounds.height * 0.5;
 
     // If the user didn't provide a step infer it from the initial value.
     let step = meta.step || (value * 0.01);
@@ -28,22 +27,9 @@ function render({ name, value, meta, update }) {
     // the value less postive, and vice versa. This is more intuitive.
     if (value < 0) step = -step;
 
-    update(value + offset * step);
+    update(value + n * step);
 
-  }
-
-  let onMouseDown = function(event) {
-
-    // Capture the initial event target.
-    let target = event.currentTarget;
-
-    let onMouseMove = event => onDrag(event, target);
-    vent.on(window, 'mousemove', onMouseMove);
-
-    let onMouseUp = event => vent.off(window, 'mousemove', onMouseMove);
-    vent.once(window, 'mouseup', onMouseUp);
-
-  }
+  });
 
   let label = el('label', null, name);
   let input = el('input', { type: 'text', value: value.toPrecision(2), onChange, onMouseDown });
