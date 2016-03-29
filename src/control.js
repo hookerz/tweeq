@@ -1,4 +1,5 @@
 import emitter from 'component-emitter';
+import * as util from './util';
 
 const extensions = [];
 
@@ -66,6 +67,8 @@ export default function Control(target, name, meta = {}) {
 
     if (arguments.length < 1) {
 
+      console.debug('forced render');
+
       rendered = null;
       control.emit('render');
 
@@ -75,6 +78,8 @@ export default function Control(target, name, meta = {}) {
 
       // Automatically update the property on the target, if it exists.
       if (target.hasOwnProperty(name)) target[name] = value;
+
+      console.debug('natural render');
 
       rendered = null;
       control.emit('render');
@@ -100,14 +105,12 @@ export default function Control(target, name, meta = {}) {
 
     if (!rendered) {
 
-      let { context } = model;
+      console.group('rendering', name);
 
-      if (!context.has(control)) context.set(control, {});
+      let state = util.safeget(model.context, control, {});
+      rendered = view.render(control, state);
 
-      let state = context.get(control);
-      let update = control.update;
-
-      rendered = view.render({ name, value, meta, update, state });
+      console.groupEnd();
 
     }
 

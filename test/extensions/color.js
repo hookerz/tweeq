@@ -28,22 +28,22 @@ test('RGB to HSV', function(t) {
 
   let hsv;
 
-  hsv = RGBtoHSV(255, 255, 255);
+  hsv = RGBtoHSV([ 255, 255, 255 ]);
   t.same(hsv, [ 0.0, 0.0, 1.0 ]);
 
-  hsv = RGBtoHSV(255, 0, 0);
+  hsv = RGBtoHSV([ 255, 0, 0 ]);
   t.same(hsv, [ 0.0, 1.0, 1.0 ]);
 
-  hsv = RGBtoHSV(0, 255, 0);
+  hsv = RGBtoHSV([ 0, 255, 0 ]);
   t.same(hsv, [ 120.0, 1.0, 1.0 ]);
 
-  hsv = RGBtoHSV(0, 0, 255);
+  hsv = RGBtoHSV([ 0, 0, 255 ]);
   t.same(hsv, [ 240.0, 1.0, 1.0 ]);
 
-  hsv = RGBtoHSV(0, 0, 255);
+  hsv = RGBtoHSV([ 0, 0, 255 ]);
   t.same(hsv, [ 240.0, 1.0, 1.0 ]);
 
-  hsv = RGBtoHSV(51, 102, 51);
+  hsv = RGBtoHSV([ 51, 102, 51 ]);
   t.same(hsv, [ 120.0, 0.5, 0.4 ]);
 
   t.end();

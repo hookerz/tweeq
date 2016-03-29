@@ -1,8 +1,9 @@
 import { createApp, element as el } from 'deku';
-import debounce from 'lodash.debounce';
-import emitter  from 'component-emitter';
-import control  from './control';
-import view     from './views/group';
+import debounce  from 'lodash.debounce';
+import emitter   from 'component-emitter';
+import control   from './control';
+import view      from './views/group';
+import * as util from './util';
 
 export default function Container(name = 'default') {
 
@@ -21,7 +22,7 @@ export default function Container(name = 'default') {
 
   // Echoes render events from the children. This isn't anonymous because we
   // need to remove it from the children when they are removed from the group.
-  const echo = event => container.emit('render');
+  const rerender = () => container.emit('render');
 
   /**
    * Add children to the container.
@@ -31,8 +32,8 @@ export default function Container(name = 'default') {
     if (arguments.length > 1) child = control(...arguments);
 
     children = children.concat(child);
-    child.on('change', echo);
-    child.on('render', echo);
+    child.on('change', rerender);
+    child.on('render', rerender);
 
     return child;
 
@@ -44,7 +45,7 @@ export default function Container(name = 'default') {
   container.remove = function(child) {
 
     children = children.filter(item => item === child);
-    child.off('render', echo);
+    child.off('render', rerender);
 
   };
 
@@ -65,7 +66,7 @@ export default function Container(name = 'default') {
 
     let renderTree = function() {
 
-      console.log('rendering');
+      console.debug('rendering');
 
       let rendered = el(container);
       let rootnode = el('div', { class: 'tweeq-root' }, rendered);
@@ -88,7 +89,7 @@ export default function Container(name = 'default') {
    */
   container.unmount = function(target) {
 
-    console.log('unmounting');
+    console.debug('unmounting');
 
   };
 
@@ -99,12 +100,10 @@ export default function Container(name = 'default') {
 
     let { context, path } = model;
 
-    if (!context.has(container)) context.set(container, { open: false });
-
-    let state = context.get(container);
+    let state = util.safeget(context, container, { open: false });
     let depth = (path.split('.').length - 1) / 2;
 
-    return view.render({ name, children, depth, update: echo, state });
+    return view.render({ name, children, depth, update: rerender, state });
 
   }
 
