@@ -128,7 +128,8 @@ function renderHSVControls(control) {
 
 function renderSatGradient(hue) {
 
-  let style = `background: -webkit-linear-gradient(left, white 0%, hsl(${ hue }, 100%, 50%) 100%);`
+  // The saturation gradient goes from white to the pure hue at full saturation.
+  let style = `background: -webkit-linear-gradient(left, white 0%, hsl(${ hue }, 100%, 50%) 100%);`;
 
   return el('div', { class: 'tweeq-color-sat', style });
 
