@@ -240,7 +240,7 @@ export function RGBtoHSV(rgb) {
  */
 export function HSVtoRGB(hsv) {
 
-  let h = hsv[0];
+  let h = hsv[0] % 360;
   let s = hsv[1];
   let v = hsv[2];
 
