@@ -3,7 +3,7 @@ import { clamp, dragInteraction } from '../util';
 
 function fit(value) {
 
-  return typeof value === 'string' && value.match(/#[0-9abcdef]{6}/);
+  return typeof value === 'string' && value.match(/^#[0-9abcdef]{6}$/);
 
 }
 
@@ -63,7 +63,7 @@ const hgradient = el('div', { class: 'tweeq-color-hue', style: 'background: -web
  * Render the expanded view of the color selector. This includes a hue slider,
  * and a two-dimensional saturation/value selector.
  */
-function renderHSVControls(control, state) {
+function renderHSVControls(control) {
 
   let { value, update } = control;
 
