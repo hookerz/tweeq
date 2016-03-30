@@ -55,10 +55,6 @@ function renderPreview({ value }) {
 
 }
 
-// Some reusable elements to construct the color picker.
-const vgradient = el('div', { class: 'tweeq-color-val', style: 'background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);' });
-const hgradient = el('div', { class: 'tweeq-color-hue', style: 'background: -webkit-linear-gradient(top, red 0%, magenta 17%, blue 33%, cyan 50%, lime 67%, yellow 83%, red 100%)'});
-
 /**
  * Render the expanded view of the color selector. This includes a hue slider,
  * and a two-dimensional saturation/value selector.
@@ -93,69 +89,134 @@ function renderHSVControls(control) {
   // Cache the HSV values in case they changed.
   HSVCache.set(control, hsv);
 
-  let selector = renderSatValSelector(hsv[1], hsv[2]);
+  const controls = [ renderSatValSelector(control, hsv), renderHueSelector(control, hsv) ];
+  return el('div', { class: 'tweeq-color-hsv' }, controls);
 
-  let { onClick, onMouseDown } = dragInteraction((offset, bounds) => {
+}
 
-    let normalizedX = clamp(0, bounds.width, offset.x) / bounds.width;
-    let normalizedY = clamp(0, bounds.height, offset.y) / bounds.width;
+/**
+ * Render the self-contained control for selecting the hue of the color.
+ */
+function renderHueSelector(control, hsv) {
 
-    let newHSV = [ hsv[0], normalizedX, 1 - normalizedY ];
-    let newRGB = HSVtoRGB(newHSV);
+  const [ hue, sat, val ] = hsv;
+
+  const { onClick, onMouseDown } = dragInteraction((offset, bounds) => {
+
+    const normalizedY = clamp(0, bounds.height, offset.y) / bounds.height;
+
+    const newHSV = [ normalizedY * 360, sat, val ];
+    const newRGB = HSVtoRGB(newHSV);
 
     HSVCache.set(control, newHSV);
 
-    update(renderHexString(newRGB));
+    control.update(renderHexString(newRGB));
 
     // Force the control to rerender. Some changes to HSV don't change the RGB
     // value, such as changing the saturation when the value is 0 (black). But
     // the view still needs to be udpated because the saturation/value selector
     // is being dragged.
-    update();
+    control.update();
 
   });
 
-  let sgradient = renderSatGradient(hsv[0]);
+  const hgradient = renderHueGradient();
+  const tooltip   = renderHueTooltip();
 
-  // Combine the saturation gradient with the value gradient to form the
-  // overlapping saturation/value gradient.
-  let svgradient = el('div', { class: 'tweeq-color-satval', onClick, onMouseDown }, sgradient, vgradient, selector);
-
-  // Put the saturation/value gradient and the hue gradient side by side, with all of their selectors.
-  return el('div', { class: 'tweeq-color-hsv' }, svgradient, hgradient);
-
-}
-
-function renderSatGradient(hue) {
-
-  // The saturation gradient goes from white to the pure hue at full saturation.
-  let style = `background: -webkit-linear-gradient(left, white 0%, hsl(${ hue }, 100%, 50%) 100%);`;
-
-  return el('div', { class: 'tweeq-color-sat', style });
+  return el('div', { class: 'tweeq-color-hue', onClick, onMouseDown }, hgradient, tooltip);
 
 }
 
 /**
  * Render the hue selector.
  */
-function renderHueSelector(hue) {
+function renderHueTooltip(hue) {
 
-  let style = `top: ${ 100 * hue / 360 }%`;
+  const style = `top: ${ 100 * hue / 360 }%`;
 
-  return el('div', { class: 'tweeq-color-selector-hue', style })
+  return el('div', { class: 'tweeq-color-tooltip-hue', style })
 
 }
 
 /**
- * Render the saturation and value selector.
+ * Render the hue gradient.
  */
-function renderSatValSelector(sat, val) {
+function renderHueGradient() {
 
-  let icon = el('i', { class: 'icon-circle' });
+  const style = 'background: -webkit-linear-gradient(top, red 0%, magenta 17%, blue 33%, cyan 50%, lime 67%, yellow 83%, red 100%)';
 
-  let style = `position: absolute; top: ${ 100 - (100 * val) }%; left: ${ 100 * sat }%`;
+  return el('div', { class: 'tweeq-color-gradient', style });
 
-  return el('div', { class: 'tweeq-color-selector-satval', style }, icon);
+}
+
+/**
+ * Render the self-contained control for selecting the saturation and value of the color.
+ */
+function renderSatValSelector(control, hsv) {
+
+  const [ hue, sat, val ] = hsv;
+
+  const { onClick, onMouseDown } = dragInteraction((offset, bounds) => {
+
+    const normalizedX = clamp(0, bounds.width, offset.x) / bounds.width;
+    const normalizedY = clamp(0, bounds.height, offset.y) / bounds.height;
+
+    const newHSV = [ hue, normalizedX, 1 - normalizedY ];
+    const newRGB = HSVtoRGB(newHSV);
+
+    HSVCache.set(control, newHSV);
+
+    control.update(renderHexString(newRGB));
+
+    // Force the control to rerender. Some changes to HSV don't change the RGB
+    // value, such as changing the saturation when the value is 0 (black). But
+    // the view still needs to be udpated because the saturation/value selector
+    // is being dragged.
+    control.update();
+
+  });
+
+  const sgradient = renderSatGradient(hue);
+  const vgradient = renderValGradient();
+  const tooltip   = renderSatValTooltip(sat, val);
+
+  // Combine the saturation gradient with the value gradient to form the
+  // overlapping saturation/value gradient.
+  return el('div', { class: 'tweeq-color-satval', onClick, onMouseDown }, sgradient, vgradient, tooltip);
+
+}
+
+/**
+ * Render the tooltip for the saturation/value selector.
+ */
+function renderSatValTooltip(sat, val) {
+
+  const icon = el('i', { class: 'icon-circle' });
+  const style = `position: absolute; top: ${ 100 - (100 * val) }%; left: ${ 100 * sat }%`;
+
+  return el('div', { class: 'tweeq-color-tooltip-satval', style }, icon);
+
+}
+
+/**
+ * Render the staturation gradient, from white to the pure hue.
+ */
+function renderSatGradient(hue) {
+
+  const style = `background: -webkit-linear-gradient(left, white 0%, hsl(${ hue }, 100%, 50%) 100%);`;
+
+  return el('div', { class: 'tweeq-color-gradient', style });
+
+}
+
+/**
+ * Render the value gradient, from transparent black to opaque black.
+ */
+function renderValGradient() {
+
+  const style = 'background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);';
+
+  return el('div', { class: 'tweeq-color-gradient', style });
 
 }
 
