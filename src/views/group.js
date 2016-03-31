@@ -7,7 +7,6 @@ function render(model) {
 
   let toggle = () => {
 
-    debugger;
     state.open = !state.open;
     update();
 
