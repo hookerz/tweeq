@@ -56,7 +56,11 @@ export default function Control(target, name, meta = {}) {
 
   });
 
-  // Used for caching rendered views.
+  // A primitive used for caching rendered views. When the value of the control
+  // is changed, the cleanstamp gets replaced. Then when the control is
+  // rendered, it compares the current cleanstamp to the cleanstamp used when
+  // the view was last rendered (in that render tree). This lets us cache
+  // renders per control, per render tree. Ideal.
   let cleanstamp = Symbol();
 
   /**

@@ -16,6 +16,11 @@ export default function Container(name = 'default') {
       value: name,
       writable: false,
       enumerable: true
+    },
+
+    children: {
+      get: () => children.concat(),
+      enumerable: true
     }
 
   });
