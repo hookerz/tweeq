@@ -30,11 +30,11 @@ export default function Control(target, name, meta = {}) {
   let value = target.hasOwnProperty(name) ? target[name] : target;
 
   // Start by looking for a view extension that can render the value.
-  let view = extensions.find(ext => ext.fit(value, meta));
+  const view = extensions.find(ext => ext.fit(value, meta));
   if (view === undefined) throw new Error(`Unable to find a suitable control for ${ value }`);
 
   // Construct the control with its properties.
-  let control = Object.create(emitter.prototype, {
+  const control = Object.create(emitter.prototype, {
 
     name: {
       value: name,
@@ -56,9 +56,8 @@ export default function Control(target, name, meta = {}) {
 
   });
 
-  // Keep a reference to the rendered view. This will get wiped out when the
-  // value is udpated.
-  let rendered = null;
+  // Used for caching rendered views.
+  let cleanstamp = Symbol();
 
   /**
    * Modify the value of the control directly.
@@ -69,19 +68,19 @@ export default function Control(target, name, meta = {}) {
 
       console.debug('forced render');
 
-      rendered = null;
+      cleanstamp = Symbol();
       control.emit('render');
 
     } else if (value !== next) {
+
+      console.debug('natural render');
 
       value = next;
 
       // Automatically update the property on the target, if it exists.
       if (target.hasOwnProperty(name)) target[name] = value;
 
-      console.debug('natural render');
-
-      rendered = null;
+      cleanstamp = Symbol();
       control.emit('render');
       control.emit('change', value);
 
@@ -103,18 +102,30 @@ export default function Control(target, name, meta = {}) {
    */
   control.render = function(model) {
 
-    if (!rendered) {
+    const cached = util.safeget(model.context, control, {
+
+      cleanstamp: null,
+      rendered: null,
+      state: {}
+
+    });
+
+    if (cached.cleanstamp === cleanstamp) {
+
+      return cached.rendered;
+
+    } else {
 
       console.group('rendering', name);
 
-      let state = util.safeget(model.context, control, {});
-      rendered = view.render(control, state);
+      cached.rendered = view.render(control, cached.state);
+      cached.cleanstamp = cleanstamp;
 
       console.groupEnd();
 
-    }
+      return cached.rendered;
 
-    return rendered;
+    }
 
   }
 
