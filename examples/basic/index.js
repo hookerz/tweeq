@@ -1,4 +1,3 @@
-import lo from 'lodash';
 import scene, { controls } from './scene';
 import tweeq from '../../';
 

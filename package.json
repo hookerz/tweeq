@@ -13,7 +13,6 @@
   "dependencies": {
     "component-emitter": "^1.2.0",
     "deku": "2.0.0-rc16",
-    "insert-css": "^0.2.0",
     "lodash.debounce": "^4.0.1"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import { element }         from 'deku';
-import insertCSS           from 'insert-css';
+import { insertCSS }       from './util';
 import control, { extend } from './control';
 import container           from './container';
 import extensions          from './extensions';

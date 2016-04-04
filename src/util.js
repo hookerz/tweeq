@@ -19,6 +19,28 @@ export function safeget(map, key, val) {
 
 }
 
+export function insertCSS(css) {
+
+  // Reference: https://github.com/substack/insert-css/blob/master/index.js
+
+  const elem = document.createElement('style');
+  elem.setAttribute('type', 'text/css');
+
+  if (elem.hasOwnProperty('textContent')) {
+
+    elem.textContent = css;
+
+  } else {
+
+    elem.stylesheet.cssText = css;
+
+  }
+
+  const head = document.querySelector('head');
+  head.appendChild(elem);
+
+}
+
 export function dragInteraction(handler) {
 
   const onChange = function(event, target) {
