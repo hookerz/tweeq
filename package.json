@@ -1,6 +1,6 @@
 {
   "name": "tweeq",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a composable user interface for tweaking values",
   "main": "lib/index.js",
   "author": "atonparker",
