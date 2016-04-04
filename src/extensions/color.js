@@ -33,9 +33,10 @@ function render(control, state) {
 
   let $label = el('label', { onClick }, name);
 
+  // Group the preview/selector for styling.
   let $grouped = el('div', { class: 'tweeq-color-group' }, state.open
-    ? [ renderPreview(control), renderHSVControls(control) ]
-    : [ renderPreview(control) ]);
+    ? [ renderPreview(control, onClick), renderHSVControls(control) ]
+    : [ renderPreview(control, onClick) ]);
 
   return el('div', { class: 'tweeq-control' }, $label, $grouped);
 
@@ -45,11 +46,11 @@ function render(control, state) {
  * Render the collapsed view of the color selector. This just shows a preview
  * of the color, and the value as text.
  */
-function renderPreview({ value }) {
+function renderPreview({ value }, onClick) {
 
   let style = `background: ${ value }`;
 
-  return el('div', { class: 'tweeq-color-preview', style }, value);
+  return el('div', { class: 'tweeq-color-preview', style, onClick }, value);
 
 }
 
@@ -121,7 +122,7 @@ function renderHueSelector(control, hsv) {
   });
 
   const hgradient = renderHueGradient();
-  const tooltip   = renderHueTooltip();
+  const tooltip   = renderHueTooltip(hue);
 
   return el('div', { class: 'tweeq-color-hue', onClick, onMouseDown }, hgradient, tooltip);
 
@@ -132,9 +133,10 @@ function renderHueSelector(control, hsv) {
  */
 function renderHueTooltip(hue) {
 
-  const style = `top: ${ 100 * hue / 360 }%`;
+  const icon = el('i', { class: 'icon-circle' });
+  const style = `top: ${ 100 * hue / 360 }%; left: 0`;
 
-  return el('div', { class: 'tweeq-color-tooltip-hue', style })
+  return el('div', { class: 'tweeq-color-tooltip', style }, icon)
 
 }
 
@@ -143,7 +145,7 @@ function renderHueTooltip(hue) {
  */
 function renderHueGradient() {
 
-  const style = 'background: -webkit-linear-gradient(top, red 0%, magenta 17%, blue 33%, cyan 50%, lime 67%, yellow 83%, red 100%)';
+  const style = 'background: -webkit-linear-gradient(top, red 0%, yellow 17%, lime 33%, cyan 50%, blue 67%, magenta 83%, red 100%)';
 
   return el('div', { class: 'tweeq-color-gradient', style });
 
@@ -194,7 +196,7 @@ function renderSatValTooltip(sat, val) {
   const icon = el('i', { class: 'icon-circle' });
   const style = `position: absolute; top: ${ 100 - (100 * val) }%; left: ${ 100 * sat }%`;
 
-  return el('div', { class: 'tweeq-color-tooltip-satval', style }, icon);
+  return el('div', { class: 'tweeq-color-tooltip', style }, icon);
 
 }
 
