@@ -26,13 +26,13 @@ export function insertCSS(css) {
   const elem = document.createElement('style');
   elem.setAttribute('type', 'text/css');
 
-  if (elem.hasOwnProperty('textContent')) {
+  if ('textContent' in elem) {
 
     elem.textContent = css;
 
   } else {
 
-    elem.stylesheet.cssText = css;
+    elem.styleSheet.cssText = css;
 
   }
 
