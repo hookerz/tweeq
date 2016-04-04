@@ -31,13 +31,13 @@ function render(control, state) {
 
   }
 
-  let label = el('label', { onClick }, name);
+  let $label = el('label', { onClick }, name);
 
-  let children = state.open
-    ? [ label, renderHSVControls(control) ]
-    : [ label, renderPreview(control) ];
+  let $grouped = el('div', { class: 'tweeq-color-group' }, state.open
+    ? [ renderPreview(control), renderHSVControls(control) ]
+    : [ renderPreview(control) ]);
 
-  return el('div', { class: 'tweeq-control' }, children);
+  return el('div', { class: 'tweeq-control' }, $label, $grouped);
 
 }
 
@@ -47,11 +47,9 @@ function render(control, state) {
  */
 function renderPreview({ value }) {
 
-  // Wrap the text in a span, for the layout.
-  let text = el('span', null, value);
   let style = `background: ${ value }`;
 
-  return el('div', { class: 'tweeq-color-preview', style }, text);
+  return el('div', { class: 'tweeq-color-preview', style }, value);
 
 }
 
@@ -70,6 +68,8 @@ function renderHSVControls(control) {
   if (HSVCache.has(control)) {
 
     let cachedHSV = HSVCache.get(control);
+
+    // TODO I can cache the RGB conversion too.
     let cachedRGB = HSVtoRGB(cachedHSV);
 
     // Since the control value can be changed by code outside of the view, we
@@ -90,7 +90,7 @@ function renderHSVControls(control) {
   HSVCache.set(control, hsv);
 
   const controls = [ renderSatValSelector(control, hsv), renderHueSelector(control, hsv) ];
-  return el('div', { class: 'tweeq-color-hsv' }, controls);
+  return el('div', { class: 'tweeq-color-selector' }, controls);
 
 }
 
