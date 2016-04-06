@@ -3,6 +3,7 @@
 ### Group
 
 `tweeq([options]) -> Group`
+
 `tweeq.group([options]) -> Group`
 
 Construct a new tweeq group. Groups are collections of tweeq controls, and can be added to the page as a GUI.
@@ -33,6 +34,7 @@ Returns the new `Control`.
 ### Group#add
 
 `Group#add(controls) -> Group`
+
 `Group#add(a, b, ...) -> Group`
 
 Add one or more tweeq controls to the group. You can pass an array of controls, or each control as an argument.
@@ -42,6 +44,7 @@ Returns the same `Group`.
 ### Group#remove
 
 `Group#remove(controls) -> Group`
+
 `Group#remove(a, b, ...) -> Group`
 
 Remove one or more tweeq controls from the group. You can pass an array of controls, or each control as an argument.
