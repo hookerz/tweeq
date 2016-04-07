@@ -2,8 +2,7 @@
 
 ### Group
 
-`tweeq([options]) -> Group`
-
+`tweeq([options]) -> Group`  
 `tweeq.group([options]) -> Group`
 
 Construct a new tweeq group. Groups are collections of tweeq controls, and can be added to the page as a GUI.
@@ -15,15 +14,10 @@ tweeq({ name: 'camera settings' });
 tweeq({ name: 'particle settings', color: '#ff0050' });
 ```
 
-###### `options.name : String`
+`options.name : String` &mdash; The name of the group.  
+`options.color : String` &mdash; The color of the group, as a hex string (`#ff0050`). This is used to show hierarchy when multiple groups are nested in each other. If you don't provide one, tweeq will pick a nice bright color for you.
 
-The name of the group.
-
-###### `options.color : String`
-
-The color of the group, as a hex string (`#ff0050`). This is used to show hierarchy when multiple groups are nested in each other. If you don't provide one, tweeq will pick a nice bright color for you.
-
-### Group#control
+#### Group#control
 
 `Group#control(value, name [, options]) -> Control`
 
@@ -31,27 +25,25 @@ A helper method to create a new `Control` and add it to the group. This is equiv
 
 Returns the new `Control`.
 
-### Group#add
+#### Group#add
 
-`Group#add(controls) -> Group`
-
+`Group#add(controls) -> Group`  
 `Group#add(a, b, ...) -> Group`
 
 Add one or more tweeq controls to the group. You can pass an array of controls, or each control as an argument.
 
 Returns the same `Group`.
 
-### Group#remove
+#### Group#remove
 
-`Group#remove(controls) -> Group`
-
+`Group#remove(controls) -> Group`  
 `Group#remove(a, b, ...) -> Group`
 
 Remove one or more tweeq controls from the group. You can pass an array of controls, or each control as an argument.
 
 Returns the same `Group`.
 
-### Group#mount
+#### Group#mount
 
 `Group#mount(element)`
 
@@ -67,25 +59,25 @@ group.control(toppings, 'mushrooms');
 group.mount(document.getElementById('#toppings-controls'));
 ```
 
-### Group#unmount
+#### Group#unmount
 
 `Group#unmount(element)`
 
 Unmount a group from a [DOM Element](https://developer.mozilla.org/en-US/docs/Web/API/Element). If the group isn't mounted on the element, nothing happens.
 
-### Group#name
+#### Group#name
 
 `Group#name -> String`
 
 Get the name of the group. This is a read-only getter.
 
-### Group#color
+#### Group#color
 
 `Group#color -> String`
 
 Get the color of the group. This is a read-only getter.
 
-### Group#children
+#### Group#children
 
 `Group#children -> Array`
 
@@ -129,11 +121,9 @@ const vector = tweeq.control({ x: 0, y: 0, z: 0 }, 'vector');
 vector.on('change', log);
 ```
 
-###### options.?
+`options.?` &mdash; Each extension has its own set of options that it will look for. [See the list of default extensions]() for their names.
 
-Each extension has its own set of options that it will look for. [See the list of default extensions]() for their names.
-
-### Control#update
+#### Control#update
 
 `Control#update(value) -> Control`
 
@@ -141,7 +131,7 @@ Update the value of the control. This will cause the control to apply any data-b
 
 Returns the same `Control`.
 
-### Control#name
+#### Control#name
 
 `Control#name -> String`
 
@@ -152,7 +142,7 @@ const foobar = tweeq.control(true, 'foobar');
 foobar.name === 'foobar';
 ```
 
-### Control#value
+#### Control#value
 
 `Control#value -> ?`
 
@@ -166,7 +156,7 @@ foobar.value === true;
 foobar.value = false;
 ```
 
-### Control#options
+#### Control#options
 
 `Control#options -> Object`
 
