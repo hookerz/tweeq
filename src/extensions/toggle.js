@@ -15,7 +15,7 @@ function render(model) {
   const $label = el('label', null, name);
   const $input = el('input', { type: 'checkbox', checked: value });
 
-  return el('div', { class: 'tweeq-control clickable', onClick }, $label, $input);
+  return el('div', { class: 'tweeq-control tweeq-toggle', onClick }, $label, $input);
 
 }
 

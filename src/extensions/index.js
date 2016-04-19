@@ -1,8 +1,7 @@
-import boolean from './boolean';
+import toggle from './toggle';
 import button  from './button';
 import color   from './color';
-import number  from './number-generic';
-import slider  from './number-slider';
+import number  from './number';
 import select  from './select';
 import string  from './string';
 
@@ -10,11 +9,10 @@ import string  from './string';
 export default {
 
   button,
-  boolean,
+  toggle,
   string,
   color,
   number,
-  slider,
   select
 
 }

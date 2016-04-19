@@ -13,7 +13,7 @@ function render({ name, value, update }) {
   const $label = el('label', null, name);
   const $input = el('input', { type: 'text', value, onChange });
 
-  return el('div', { class: 'tweeq-control' }, $label, $input);
+  return el('div', { class: 'tweeq-control tweeq-string' }, $label, $input);
 
 }
 

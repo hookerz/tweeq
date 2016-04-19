@@ -38,7 +38,7 @@ function render(control, state) {
     ? [ renderPreview(control, onClick), renderHSVControls(control) ]
     : [ renderPreview(control, onClick) ]);
 
-  return el('div', { class: 'tweeq-control' }, $label, $grouped);
+  return el('div', { class: 'tweeq-control tweeq-color' }, $label, $grouped);
 
 }
 

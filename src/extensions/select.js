@@ -21,11 +21,10 @@ function render({ name, value, meta, update }) {
   const keys = Object.keys(options);
   const views = keys.map(key => el('option', { selected: value === options[key] }, key));
 
-  // Construct the control.
   const $label = el('label', null, name);
   const $select = el('select', { onChange }, views);
 
-  return el('div', { class: 'tweeq-control' }, $label, $select);
+  return el('div', { class: 'tweeq-control tweeq-select' }, $label, $select);
 
 }
 
