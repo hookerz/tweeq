@@ -6,11 +6,13 @@ function fit(value) {
 
 }
 
-function render({ name, value }) {
+function render(model) {
 
-  let label = el('label', null, name);
+  const { name, value } = model;
 
-  return el('div', { class: 'tweeq-control clickable', onClick: value }, label);
+  const $label = el('label', null, name);
+
+  return el('div', { class: 'tweeq-control clickable', onClick: value }, $label);
 
 }
 

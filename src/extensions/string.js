@@ -8,12 +8,12 @@ function fit(value) {
 
 function render({ name, value, update }) {
 
-  let onChange = event => update(event.target.value);
+  const onChange = event => update(event.target.value);
 
-  let label = el('label', null, name);
-  let input = el('input', { type: 'text', value, onChange });
+  const $label = el('label', null, name);
+  const $input = el('input', { type: 'text', value, onChange });
 
-  return el('div', { class: 'tweeq-control' }, label, input);
+  return el('div', { class: 'tweeq-control' }, $label, $input);
 
 }
 

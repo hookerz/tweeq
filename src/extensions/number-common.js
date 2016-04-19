@@ -1,32 +1,6 @@
 import { element as el } from 'deku';
-import { clamp, dragInteraction } from '../util';
 
-function fit(value) {
-
-  return Number.isFinite(value);
-
-}
-
-function render(model) {
-
-  const $label = renderLabel(model);
-  const $input = renderInput(model);
-
-  return el('div', { class: 'tweeq-control' }, $label, $input);
-
-}
-
-export function renderLabel(model) {
-
-  const { name } = model;
-
-  return el('label', null, name);
-
-}
-
-export function renderInput(model) {
-
-  const { value, meta, update } = model;
+export function renderInput({ value, meta, update }) {
 
   const onChange = function(event) {
 
@@ -35,7 +9,7 @@ export function renderInput(model) {
 
   }
 
-  const { onMouseDown } = dragInteraction(function(offset, bounds) {
+  const { onMouseDown } = dragInteraction((offset, bounds) => {
 
     const n = offset.y - bounds.height * 0.5;
 
@@ -53,5 +27,3 @@ export function renderInput(model) {
   return el('input', { type: 'text', value: value.toPrecision(2), onChange, onMouseDown });
 
 }
-
-export default { fit, render };

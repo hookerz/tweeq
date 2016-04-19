@@ -1,5 +1,6 @@
 import { element as el } from 'deku';
 import { clamp, dragInteraction } from '../util';
+import * as numberGeneric from './number-generic';
 import vent from '../events';
 
 function fit(value, meta) {
@@ -12,30 +13,33 @@ function fit(value, meta) {
 
 }
 
-function render({ name, value, meta, update }) {
+function render(model) {
 
-  let { min, max } = meta;
+  const { name, value, meta, update } = model;
+  const { min, max } = meta;
 
-  let { onClick, onMouseDown } = dragInteraction((offset, bounds) => {
+  const { onClick, onMouseDown } = dragInteraction((offset, bounds) => {
 
-    let normalized = clamp(0, bounds.width, offset.x) / bounds.width;
-    let mapped = min + (max - min) * normalized;
+    const normalized = clamp(0, bounds.width, offset.x) / bounds.width;
+    const mapped = min + (max - min) * normalized;
 
     update(mapped);
 
   });
 
-  let label = el('label', null, name);
+  const $label = el('label', null, name);
 
   // Compute the value as a percentage of the total range.
-  let percentage = 100 * (value - min) / (max - min);
+  const percentage = 100 * (value - min) / (max - min);
 
-  let background = el('div', { style: 'position: absolute; top: 0; left: 0; bottom: 0; right: 0;' });
-  let foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - percentage }%;` });
+  const $background = el('div', { style: 'position: absolute; top: 0; left: 0; bottom: 0; right: 0;' });
+  const $foreground = el('div', { style: `position: absolute; top: 0; left: 0; bottom: 0; right: ${ 100 - percentage }%;` });
+  const $slider = el('div', { class: 'tweeq-slider clickable', onClick, onMouseDown }, $background, $foreground);
 
-  let slider = el('div', { class: 'tweeq-slider clickable', onClick, onMouseDown }, background, foreground);
+  const clampedUpdate = value => update(clamp(min, max, value));
+  const $input = numberGeneric.renderInput({ name, value, meta, update: clampedUpdate });
 
-  return el('div', { class: 'tweeq-control' }, label, slider);
+  return el('div', { class: 'tweeq-control' }, $label, $slider, $input);
 
 }
 

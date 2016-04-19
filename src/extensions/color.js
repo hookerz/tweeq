@@ -20,21 +20,21 @@ const HSVCache = new WeakMap();
 
 function render(control, state) {
 
-  let { name, update } = control;
+  const { name, update } = control;
 
   if (state.open === undefined) state.open = false;
 
-  let onClick = (event) => {
+  const onClick = (event) => {
 
     state.open = !state.open;
     update();
 
   }
 
-  let $label = el('label', { onClick }, name);
+  const $label = el('label', { onClick }, name);
 
   // Group the preview/selector for styling.
-  let $grouped = el('div', { class: 'tweeq-color-group' }, state.open
+  const $grouped = el('div', { class: 'tweeq-color-group' }, state.open
     ? [ renderPreview(control, onClick), renderHSVControls(control) ]
     : [ renderPreview(control, onClick) ]);
 
@@ -48,7 +48,7 @@ function render(control, state) {
  */
 function renderPreview({ value }, onClick) {
 
-  let style = `background: ${ value }`;
+  const style = `background: ${ value }`;
 
   return el('div', { class: 'tweeq-color-preview', style, onClick }, value);
 
@@ -60,7 +60,7 @@ function renderPreview({ value }, onClick) {
  */
 function renderHSVControls(control) {
 
-  let { value, update } = control;
+  const { value, update } = control;
 
   let rgb = parseHexString(value);
   let hsv = null;
@@ -68,14 +68,14 @@ function renderHSVControls(control) {
   // Attempt to use the cached HSV values, if they're present and valid.
   if (HSVCache.has(control)) {
 
-    let cachedHSV = HSVCache.get(control);
+    const cachedHSV = HSVCache.get(control);
 
     // TODO I can cache the RGB conversion too.
-    let cachedRGB = HSVtoRGB(cachedHSV);
+    const cachedRGB = HSVtoRGB(cachedHSV);
 
     // Since the control value can be changed by code outside of the view, we
     // need to check our cached HSV values for consistency.
-    let consistent = rgb[0] === cachedRGB[0] && rgb[1] === cachedRGB[1] && rgb[2] === cachedRGB[2];
+    const consistent = rgb[0] === cachedRGB[0] && rgb[1] === cachedRGB[1] && rgb[2] === cachedRGB[2];
 
     consistent ? console.debug('consistent') : console.debug('inconsistent');
 
@@ -90,8 +90,9 @@ function renderHSVControls(control) {
   // Cache the HSV values in case they changed.
   HSVCache.set(control, hsv);
 
-  const controls = [ renderSatValSelector(control, hsv), renderHueSelector(control, hsv) ];
-  return el('div', { class: 'tweeq-color-selector' }, controls);
+  const $controls = [ renderSatValSelector(control, hsv), renderHueSelector(control, hsv) ];
+
+  return el('div', { class: 'tweeq-color-selector' }, $controls);
 
 }
 
@@ -121,10 +122,10 @@ function renderHueSelector(control, hsv) {
 
   });
 
-  const hgradient = renderHueGradient();
-  const tooltip   = renderHueTooltip(hue);
+  const $hgradient = renderHueGradient();
+  const $tooltip   = renderHueTooltip(hue);
 
-  return el('div', { class: 'tweeq-color-hue', onClick, onMouseDown }, hgradient, tooltip);
+  return el('div', { class: 'tweeq-color-hue', onClick, onMouseDown }, $hgradient, $tooltip);
 
 }
 
@@ -178,13 +179,13 @@ function renderSatValSelector(control, hsv) {
 
   });
 
-  const sgradient = renderSatGradient(hue);
-  const vgradient = renderValGradient();
-  const tooltip   = renderSatValTooltip(sat, val);
+  const $sgradient = renderSatGradient(hue);
+  const $vgradient = renderValGradient();
+  const $tooltip   = renderSatValTooltip(sat, val);
 
   // Combine the saturation gradient with the value gradient to form the
   // overlapping saturation/value gradient.
-  return el('div', { class: 'tweeq-color-satval', onClick, onMouseDown }, sgradient, vgradient, tooltip);
+  return el('div', { class: 'tweeq-color-satval', onClick, onMouseDown }, $sgradient, $vgradient, $tooltip);
 
 }
 
@@ -228,9 +229,9 @@ function renderValGradient() {
  */
 export function parseHexString(value) {
 
-  let r = Number.parseInt(value.substr(1, 2), 16);
-  let g = Number.parseInt(value.substr(3, 2), 16);
-  let b = Number.parseInt(value.substr(5, 2), 16);
+  const r = Number.parseInt(value.substr(1, 2), 16);
+  const g = Number.parseInt(value.substr(3, 2), 16);
+  const b = Number.parseInt(value.substr(5, 2), 16);
 
   return [ r, g, b ];
 
@@ -238,10 +239,10 @@ export function parseHexString(value) {
 
 export function renderHexString(rgb) {
 
-  let [ r, g, b ] = rgb;
-  let str = ((r << 16) + (g << 8) + (b << 0)).toString(16);
+  const [ r, g, b ] = rgb;
 
   // Left pad, lol.
+  let str = ((r << 16) + (g << 8) + (b << 0)).toString(16);
   while (str.length < 6) str = '0' + str;
 
   return '#' + str;
@@ -262,12 +263,12 @@ export function renderRGBString(rgb) {
 export function RGBtoHSV(rgb) {
 
   // Decompose and normalize the RGB array.
-  let r = rgb[0] / 255;
-  let g = rgb[1] / 255;
-  let b = rgb[2] / 255;
+  const r = rgb[0] / 255;
+  const g = rgb[1] / 255;
+  const b = rgb[2] / 255;
 
-  let min = Math.min(r, g, b);
-  let max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const max = Math.max(r, g, b);
 
   if (min == max) {
 
@@ -275,7 +276,7 @@ export function RGBtoHSV(rgb) {
 
   } else {
 
-    let delta = max - min;
+    const delta = max - min;
 
     let h = 0;
 
@@ -289,8 +290,8 @@ export function RGBtoHSV(rgb) {
 
     if (h < 0) h = h + 360;
 
-    let s = delta / max;
-    let v = max;
+    const s = delta / max;
+    const v = max;
 
     return [ h, s, v ];
 

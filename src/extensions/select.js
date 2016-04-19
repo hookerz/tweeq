@@ -8,24 +8,24 @@ function fit(value, meta) {
 
 function render({ name, value, meta, update }) {
 
-  let { options } = meta;
+  const { options } = meta;
 
-  let onChange = event => {
+  const onChange = function(event) {
 
-    let selection = options[event.target.value];
+    const selection = options[event.target.value];
     update(selection);
 
   }
 
   // Map the keys of the value object to <option> elements.
-  let keys = Object.keys(options);
-  let views = keys.map(key => el('option', { selected: value === options[key] }, key));
+  const keys = Object.keys(options);
+  const views = keys.map(key => el('option', { selected: value === options[key] }, key));
 
   // Construct the control.
-  let label = el('label', null, name);
-  let select = el('select', { onChange }, views);
+  const $label = el('label', null, name);
+  const $select = el('select', { onChange }, views);
 
-  return el('div', { class: 'tweeq-control' }, label, select);
+  return el('div', { class: 'tweeq-control' }, $label, $select);
 
 }
 

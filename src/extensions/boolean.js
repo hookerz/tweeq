@@ -6,14 +6,16 @@ function fit(value) {
 
 }
 
-function render({ name, value, update }) {
+function render(model) {
 
-  let onClick = event => update(!value);
+  const { name, value, update } = model;
 
-  let label = el('label', null, name);
-  let input = el('input', { type: 'checkbox', checked: value });
+  const onClick = event => update(!value);
 
-  return el('div', { class: 'tweeq-control clickable', onClick }, label, input);
+  const $label = el('label', null, name);
+  const $input = el('input', { type: 'checkbox', checked: value });
+
+  return el('div', { class: 'tweeq-control clickable', onClick }, $label, $input);
 
 }
 
